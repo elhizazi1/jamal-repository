@@ -99,7 +99,7 @@ const folder = `extensions/${manifest.id}/${manifest.version}`
 const fileName = `${manifest.id}-${manifest.version}.r1`
 fs.mkdirSync(path.join(root, folder), { recursive: true })
 fs.writeFileSync(path.join(root, folder, fileName), pkg)
-fs.copyFileSync(path.join(root, 'extension-src/assets/icon.svg'), path.join(root, folder, 'icon.svg'))
+fs.writeFileSync(path.join(root, folder, 'icon.svg'), fs.readFileSync(path.join(root, 'extension-src/assets/icon.svg')))
 
 // ---------- links ----------
 const rawBase = `https://raw.githubusercontent.com/${cfg.owner}/${cfg.repo}/${cfg.branch}`
