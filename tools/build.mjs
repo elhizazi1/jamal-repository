@@ -91,14 +91,39 @@ function makeZip(entries) {
 
 const entries = walk(path.join(root, 'extension-src'))
 if (!entries.some((e) => e.name === 'manifest.json')) fail('extension-src/manifest.json is missing')
-const pkg = makeZip(entries)
-const sha256 = crypto.createHash('sha256').update(pkg).digest('hex')
-const sizeBytes = pkg.length
-
 const folder = `extensions/${manifest.id}/${manifest.version}`
 const fileName = `${manifest.id}-${manifest.version}.r1`
 fs.mkdirSync(path.join(root, folder), { recursive: true })
-fs.writeFileSync(path.join(root, folder, fileName), pkg)
+
+// A published .r1 is immutable: Market Plus pins its SHA-256, and compressed bytes can differ between Node versions.
+// If the file already exists and its contents match extension-src, its exact bytes are reused (same SHA-256 everywhere).
+// If extension-src changed without a version bump, the build stops instead of silently changing a published file.
+function zipCrcs(buf) {
+  const map = new Map()
+  let p = buf.readUInt32LE(buf.length - 6) // central directory offset (archive has no trailing comment)
+  while (buf.readUInt32LE(p) === 0x02014b50) {
+    const crc = buf.readUInt32LE(p + 16), n = buf.readUInt16LE(p + 28), x = buf.readUInt16LE(p + 30), c = buf.readUInt16LE(p + 32)
+    map.set(buf.toString('utf8', p + 46, p + 46 + n), crc)
+    p += 46 + n + x + c
+  }
+  return map
+}
+const target = path.join(root, folder, fileName)
+let pkg
+if (fs.existsSync(target)) {
+  const existing = fs.readFileSync(target)
+  const have = zipCrcs(existing)
+  const same = have.size === entries.length && entries.every((e) => have.get(e.name) === crc32(e.data))
+  if (!same) fail(`${fileName} already exists and extension-src has changed. Bump "version" in extension-src/manifest.json to publish a new version (never edit a published .r1).`)
+  pkg = existing
+  console.log(`= reusing existing ${fileName} (unchanged contents)`)
+} else {
+  pkg = makeZip(entries)
+  fs.writeFileSync(target, pkg)
+}
+const sha256 = crypto.createHash('sha256').update(pkg).digest('hex')
+const sizeBytes = pkg.length
+// writeFileSync instead of copyFileSync: copyfile fails with EPERM on some Android/Termux setups
 fs.writeFileSync(path.join(root, folder, 'icon.svg'), fs.readFileSync(path.join(root, 'extension-src/assets/icon.svg')))
 
 // ---------- links ----------
