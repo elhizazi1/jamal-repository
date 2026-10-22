@@ -1,0 +1,73 @@
+{
+  "protocol": "1.0",
+  "id": "me.elhizazi.jamal.github.repository",
+  "name": "Jamal El Hizazi Repository",
+  "publisher": "Jamal El Hizazi",
+  "description": "Extensions for RawanIDE by Jamal El Hizazi.",
+  "homepageUrl": "https://elhizazi1.github.io/jamal-repository/",
+  "repositoryUrl": "https://github.com/elhizazi1/jamal-repository",
+  "icon": "https://raw.githubusercontent.com/elhizazi1/jamal-repository/main/icon.svg",
+  "verification": "REPLACE_WITH_MARKET_PLUS_CODE",
+  "i18n": {
+    "ar": {
+      "name": "مستودع جمال الحزازي",
+      "description": "إضافات لـ RawanIDE من تطوير جمال الحزازي."
+    },
+    "en": {
+      "name": "Jamal El Hizazi Repository",
+      "description": "Extensions for RawanIDE by Jamal El Hizazi."
+    },
+    "zh-CN": {
+      "name": "Jamal El Hizazi 扩展仓库",
+      "description": "Jamal El Hizazi 为 RawanIDE 开发的扩展。"
+    },
+    "zh-TW": {
+      "name": "Jamal El Hizazi 擴充功能倉庫",
+      "description": "Jamal El Hizazi 為 RawanIDE 開發的擴充功能。"
+    }
+  },
+  "extensions": [
+    {
+      "id": "me.elhizazi.jamal.github.repository.example",
+      "name": "Jamal Example",
+      "version": "1.0.0",
+      "publisher": "Jamal El Hizazi",
+      "description": "A small, safe example extension: quick snippets for JavaScript, HTML, CSS and Python, two file-header commands, and the Jamal Night terminal theme. No permissions and no code.",
+      "category": "Snippets",
+      "icon": "https://raw.githubusercontent.com/elhizazi1/jamal-repository/main/extensions/me.elhizazi.jamal.github.repository.example/1.0.0/icon.svg",
+      "apiVersion": "1.0",
+      "runtime": "declarative",
+      "permissions": [],
+      "sizeBytes": 2723,
+      "sha256": "d0d9d7fc5b9a2d88a569830ea2276826f3174011dd73b98589cca2c24c4a6020",
+      "downloadUrl": "https://raw.githubusercontent.com/elhizazi1/jamal-repository/main/extensions/me.elhizazi.jamal.github.repository.example/1.0.0/me.elhizazi.jamal.github.repository.example-1.0.0.r1",
+      "homepageUrl": "https://elhizazi1.github.io/jamal-repository/extensions/me.elhizazi.jamal.github.repository.example/1.0.0/",
+      "documentationUrl": "https://elhizazi1.github.io/jamal-repository/extensions/me.elhizazi.jamal.github.repository.example/1.0.0/",
+      "license": "MIT",
+      "tags": [
+        "snippets",
+        "terminal-theme",
+        "example"
+      ],
+      "changelog": "First release.",
+      "i18n": {
+        "ar": {
+          "name": "مثال جمال",
+          "description": "إضافة مثال صغيرة وآمنة: مقتطفات سريعة لـ JavaScript وHTML وCSS وPython، وأمران لإدراج ترويسة الملف، وسمة الطرفية «ليل جمال». بلا صلاحيات وبلا كود تنفيذي."
+        },
+        "en": {
+          "name": "Jamal Example",
+          "description": "A small, safe example extension: quick snippets for JavaScript, HTML, CSS and Python, two file-header commands, and the Jamal Night terminal theme. No permissions and no code."
+        },
+        "zh-CN": {
+          "name": "Jamal 示例",
+          "description": "小巧安全的示例扩展：JavaScript、HTML、CSS 和 Python 的快捷代码片段、两个文件头命令，以及 Jamal Night 终端主题。无需任何权限，不含可执行代码。"
+        },
+        "zh-TW": {
+          "name": "Jamal 範例",
+          "description": "小巧安全的範例擴充功能：JavaScript、HTML、CSS 與 Python 的快速程式碼片段、兩個檔案標頭指令，以及 Jamal Night 終端機主題。無需任何權限，不含可執行程式碼。"
+        }
+      }
+    }
+  ]
+}
