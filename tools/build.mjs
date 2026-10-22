@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Builds the repository: packs extension-src/ into a .r1, computes its SHA-256 and size, and writes
-//   - extensions/<id>/<version>/<id>-<version>.r1, icon.svg, marketplace.json, index.html (redirect page data)
+// Builds the repository: packs extension-src/ into a .r1 (or reuses the published one), computes its SHA-256 and size, and writes
+//   - extensions/<id>/<version>/<id>-<version>.r1, <icon>, marketplace.json, index.html (page data)
 //   - repository.json (the file RawanIDE / Market Plus reads)
 // and refreshes the data embedded in index.html so the pages also work offline.
 //
@@ -43,7 +43,12 @@ const ID = /^[a-z0-9][a-z0-9._-]{2,127}$/
 if (!ID.test(manifest.id)) fail('extension id is invalid')
 if (!ID.test(REPOSITORY.id)) fail('repository id is invalid')
 if (!/^[0-9A-Za-z][0-9A-Za-z.+_-]{0,63}$/.test(manifest.version)) fail('extension version is invalid')
-if (manifest.runtime !== 'declarative' && manifest.runtime !== 'hosted-js') fail('community repositories allow only "declarative" and "hosted-js"')
+const RUNTIME = manifest.runtime == null ? null : manifest.runtime // language packs (data only) have no runtime
+if (RUNTIME !== null && RUNTIME !== 'declarative' && RUNTIME !== 'hosted-js') fail('community repositories allow only "declarative", "hosted-js" or no runtime')
+const ICON_SRC = String(manifest.icon || '')
+if (!ICON_SRC || !fs.existsSync(path.join(root, 'extension-src', ICON_SRC))) fail(`manifest icon "${ICON_SRC}" not found in extension-src/`)
+const ICON_NAME = path.posix.basename(ICON_SRC)
+const languages = ((manifest.localization && manifest.localization.languages) || []).map((l) => l.nativeName || l.name)
 const BLOCKED = ['TERMINAL_ACCESS', 'PROCESS_EXECUTION', 'DEVICE_FILES_READ', 'DEVICE_FILES_WRITE']
 if ((manifest.permissions || []).some((p) => BLOCKED.includes(p))) fail('sensitive permissions are not allowed for community extensions')
 
@@ -124,15 +129,23 @@ if (fs.existsSync(target)) {
 const sha256 = crypto.createHash('sha256').update(pkg).digest('hex')
 const sizeBytes = pkg.length
 // writeFileSync instead of copyFileSync: copyfile fails with EPERM on some Android/Termux setups
-fs.writeFileSync(path.join(root, folder, 'icon.svg'), fs.readFileSync(path.join(root, 'extension-src/assets/icon.svg')))
+fs.writeFileSync(path.join(root, folder, ICON_NAME), fs.readFileSync(path.join(root, 'extension-src', ICON_SRC)))
 
 // ---------- links ----------
 const rawBase = `https://raw.githubusercontent.com/${cfg.owner}/${cfg.repo}/${cfg.branch}`
 const repositoryUrl = `https://github.com/${cfg.owner}/${cfg.repo}`
 const pagesUrl = `https://${cfg.owner.toLowerCase()}.github.io/${cfg.repo}/`
 const downloadUrl = `${rawBase}/${folder}/${fileName}`
-const L = manifest.localizedMetadata
-const i18n = { ar: L.ar, en: L.en, 'zh-CN': L['zh-CN'], 'zh-TW': L['zh-TW'] }
+const i18n = manifest.localizedMetadata
+if (!i18n || !i18n.en) fail('extension-src/manifest.json: localizedMetadata.en is required')
+const RELEASE_DATE = '2026-10-22'
+const CHANGELOG = {
+  en: 'Initial release of the French language pack.',
+  ar: 'الإصدار الأولي لحزمة اللغة الفرنسية.',
+  fr: 'Version initiale du pack de langue française.',
+}
+const TAGS = ['language-pack', 'french']
+const contributes = manifest.localization ? ['language-pack'] : []
 
 // ---------- repository.json ----------
 const repositoryJson = {
@@ -155,18 +168,17 @@ const repositoryJson = {
       publisher: manifest.publisher,
       description: manifest.description,
       category: manifest.category,
-      icon: `${rawBase}/${folder}/icon.svg`,
+      icon: `${rawBase}/${folder}/${ICON_NAME}`,
       apiVersion: manifest.apiVersion,
-      runtime: manifest.runtime,
+      runtime: RUNTIME,
       permissions: manifest.permissions || [],
       sizeBytes,
       sha256,
       downloadUrl,
       homepageUrl: `${pagesUrl}${folder}/`,
       documentationUrl: `${pagesUrl}${folder}/`,
-      license: manifest.license,
-      tags: ['snippets', 'terminal-theme', 'example'],
-      changelog: 'First release.',
+      tags: TAGS,
+      changelog: CHANGELOG.en,
       i18n,
     },
   ],
@@ -183,28 +195,25 @@ writeJson(`${folder}/marketplace.json`, {
   publisher: manifest.publisher,
   version: manifest.version,
   apiVersion: manifest.apiVersion,
-  runtime: manifest.runtime,
-  permissions: [],
-  icon: 'icon.svg',
+  runtime: RUNTIME,
+  permissions: manifest.permissions || [],
+  icon: ICON_NAME,
   package: { file: fileName, size: sizeBytes, sha256 },
+  publishedAt: RELEASE_DATE,
+  featured: false,
   i18n,
+  longDescription: {},
   links: { homepage: `${pagesUrl}${folder}/`, repository: repositoryUrl },
+  screenshots: [],
   highlights: {
-    commandCount: manifest.commands.length,
-    commands: manifest.commands.map((c) => c.title),
-    languages: [...new Set(manifest.snippets.flatMap((s) => s.languages))],
-    contributes: ['snippets', 'commands', 'terminal-theme'],
+    commandCount: 0,
+    commands: [],
+    languages,
+    fileLanguages: [],
+    contributes,
   },
   releases: {
-    [manifest.version]: {
-      date: '2026-10-22',
-      notes: {
-        en: 'First release.',
-        ar: 'الإصدار الأول.',
-        'zh-CN': '首个版本。',
-        'zh-TW': '首個版本。',
-      },
-    },
+    [manifest.version]: { date: RELEASE_DATE, notes: CHANGELOG },
   },
 })
 
@@ -213,10 +222,9 @@ const pageData = {
   repository: repositoryJson,
   extension: {
     id: manifest.id, name: manifest.name, version: manifest.version, publisher: manifest.publisher, category: manifest.category,
-    license: manifest.license, i18n, runtime: manifest.runtime, apiVersion: manifest.apiVersion, permissions: manifest.permissions || [],
-    snippets: manifest.snippets, commands: manifest.commands, theme: manifest.terminalThemes[0],
+    i18n, runtime: RUNTIME, apiVersion: manifest.apiVersion, permissions: manifest.permissions || [],
     package: { file: fileName, sizeBytes, sha256, downloadUrl },
-    changelog: { en: 'First release.', ar: 'الإصدار الأول.', zh: '首个版本。' },
+    changelog: CHANGELOG,
   },
 }
 const inject = (page) => {
@@ -224,7 +232,7 @@ const inject = (page) => {
   if (!fs.existsSync(full)) return
   const html = fs.readFileSync(full, 'utf8')
   const json = JSON.stringify(pageData).replace(/</g, '\\u003c')
-  const next = html.replace(/(<!--DATA-->)[\s\S]*?(<!--\/DATA-->)/, `$1<script type="application/json" id="data">${json}</script>$2`)
+  const next = html.replace(/(<!--DATA-->)[\s\S]*?(<!--\/DATA-->)/, () => `<!--DATA--><script type="application/json" id="data">${json}</script><!--/DATA-->`)
   if (next === html && !html.includes(json)) warn.push(`${page}: no <!--DATA--> marker found`)
   fs.writeFileSync(full, next)
 }

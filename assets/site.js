@@ -227,7 +227,7 @@
           (x.permissions || []).length ? null : el('span', { 'class': 'tag safe', text: t('perms_none') })
         ])
         var row = el('a', { 'class': 'row', href: href }, [
-          el('img', { src: root + 'extensions/' + encodeURIComponent(x.id) + '/' + encodeURIComponent(x.version) + '/icon.svg', alt: '', width: 64, height: 64 }),
+          el('img', { src: root + 'extensions/' + encodeURIComponent(x.id) + '/' + encodeURIComponent(x.version) + '/' + encodeURIComponent(String(x.icon || 'icon.svg').split('/').pop()), alt: '', width: 64, height: 64 }),
           el('div', {}, [title, el('p', { text: localized(x.i18n, 'description', x.description || '') })]),
           el('span', { 'class': 'chev', 'aria-hidden': 'true', text: '›' })
         ])
@@ -250,8 +250,9 @@
         ['f_runtime', ext && ext.runtime === 'declarative' ? t('runtime_declarative') : (ext && ext.runtime) || '', false],
         ['f_perms', permList.length ? permList.join(', ') : t('all_none'), permList.length > 0]
       ].forEach(function (r) {
+        if (!r[1]) return
         facts.appendChild(el('dt', { text: t(r[0]) }))
-        facts.appendChild(el('dd', { 'class': r[2] ? 'mono' : '', text: r[1] || '' }))
+        facts.appendChild(el('dd', { 'class': r[2] ? 'mono' : '', text: r[1] }))
       })
     }
   }
@@ -340,8 +341,9 @@
         ['d_size', p.sizeBytes ? shortKb(p.sizeBytes) + ' (' + p.sizeBytes + ' B)' : '', true],
         ['d_perms', (x.permissions || []).length ? x.permissions.join(', ') : t('all_none'), false]
       ].forEach(function (r) {
+        if (!r[1]) return
         facts.appendChild(el('dt', { text: t(r[0]) }))
-        facts.appendChild(el('dd', { 'class': r[2] ? 'mono' : '', text: r[1] || '' }))
+        facts.appendChild(el('dd', { 'class': r[2] ? 'mono' : '', text: r[1] }))
       })
       facts.appendChild(el('dt', { text: t('d_sha') }))
       var dd = el('dd', { 'class': 'hash' }, [el('span', { 'class': 'mono', text: p.sha256 || '' })])

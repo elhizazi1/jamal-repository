@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 2,
+  "id": "me.elhizazi.jamal.github.repository.language.french",
+  "name": "French Language Pack",
+  "description": "French interface language pack for RawanIDE. Provides French UI strings.",
+  "category": "Language Packs",
+  "publisher": "Jamal El Hizazi",
+  "version": "1.0.0",
+  "apiVersion": "1.0",
+  "runtime": null,
+  "permissions": [],
+  "icon": "french-language.webp",
+  "package": {
+    "file": "me.elhizazi.jamal.github.repository.language.french-1.0.0.r1",
+    "size": 48666,
+    "sha256": "2f513e5b9b23acaeafe5639cd33b73069ed3e005d0228362bf16907a8c696561"
+  },
+  "publishedAt": "2026-10-22",
+  "featured": false,
+  "i18n": {
+    "en": {
+      "name": "French Language Pack",
+      "description": "Adds French language support to RawanIDE, including French interface translations."
+    },
+    "ar": {
+      "name": "حزمة اللغة الفرنسية",
+      "description": "تضيف دعم اللغة الفرنسية إلى RawanIDE، وتشمل ترجمة كاملة لواجهة المستخدم."
+    },
+    "fr": {
+      "name": "Pack de langue française",
+      "description": "Ajoute la prise en charge de la langue française à RawanIDE, y compris la traduction de l'interface."
+    }
+  },
+  "longDescription": {},
+  "links": {
+    "homepage": "https://elhizazi1.github.io/jamal-repository/extensions/me.elhizazi.jamal.github.repository.language.french/1.0.0/",
+    "repository": "https://github.com/elhizazi1/jamal-repository"
+  },
+  "screenshots": [],
+  "highlights": {
+    "commandCount": 0,
+    "commands": [],
+    "languages": [
+      "Français"
+    ],
+    "fileLanguages": [],
+    "contributes": [
+      "language-pack"
+    ]
+  },
+  "releases": {
+    "1.0.0": {
+      "date": "2026-10-22",
+      "notes": {
+        "en": "Initial release of the French language pack.",
+        "ar": "الإصدار الأولي لحزمة اللغة الفرنسية.",
+        "fr": "Version initiale du pack de langue française."
+      }
+    }
+  }
+}

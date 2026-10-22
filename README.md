@@ -1,18 +1,19 @@
 # Jamal El Hizazi Repository · مستودع جمال الحزازي (GitHub)
 
-مثال حي لمستودع إضافات RawanIDE على GitHub. / A live example of a RawanIDE extension repository on GitHub.
+مستودع إضافات RawanIDE على GitHub، يحتوي حاليًا على **حزمة اللغة الفرنسية**. / A RawanIDE extension repository on GitHub, currently hosting the **French Language Pack**.
 
-Repository ID: `me.elhizazi.jamal.github.repository` · Extension: `me.elhizazi.jamal.github.repository.example`
-نظيره على GitLab: `me.elhizazi.jamal.repository` · Its GitLab twin uses `me.elhizazi.jamal.repository`. المعرّف يُوثَّق مرة واحدة فقط في Market Plus، لذلك لكل نسخة معرّف مختلف. / An ID can be claimed only once in Market Plus, so each copy has its own.
+Repository ID: `me.elhizazi.jamal.github.repository` · Extension: `me.elhizazi.jamal.github.repository.language.french`
+
+المعرّف يُوثَّق مرة واحدة فقط في Market Plus، لذلك لكل نسخة معرّف مختلف. / An ID can be claimed only once in Market Plus, so each copy has its own.
 
 ```
 repository.json                      ← the file RawanIDE / Market Plus reads · الملف الذي يقرأه التطبيق
 index.html                           ← repository page · صفحة المستودع
 icon.svg
 assets/site.css, site.js             ← shared by both pages (no external requests)
-extension-src/                       ← source of the extension (manifest.json, assets/icon.svg, README.md)
-extensions/<id>/<version>/           ← <id>-<version>.r1   icon.svg   marketplace.json   index.html
-tools/build.mjs                      ← packs the .r1, computes SHA-256 + size, rewrites repository.json
+extension-src/                       ← exact contents of the published package (manifest.json, strings/fr.json, icons/, README.md)
+extensions/<id>/<version>/           ← <id>-<version>.r1   french-language.webp   marketplace.json   index.html
+tools/build.mjs                      ← packs/reuses the .r1, computes SHA-256 + size, rewrites repository.json and marketplace.json
 repo.config.json                     ← owner, repo, branch, Market Plus verification code
 ```
 

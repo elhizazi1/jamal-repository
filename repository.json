@@ -28,60 +28,18 @@
   },
   "extensions": [
     {
-      "id": "me.elhizazi.jamal.github.repository.example",
-      "name": "Jamal Example",
-      "version": "1.0.0",
-      "publisher": "Jamal El Hizazi",
-      "description": "A small, safe example extension: quick snippets for JavaScript, HTML, CSS and Python, two file-header commands, and the Jamal Night terminal theme. No permissions and no code.",
-      "category": "Snippets",
-      "icon": "https://raw.githubusercontent.com/elhizazi1/jamal-repository/main/extensions/me.elhizazi.jamal.github.repository.example/1.0.0/icon.svg",
-      "apiVersion": "1.0",
-      "runtime": "declarative",
-      "permissions": [],
-      "sizeBytes": 2680,
-      "sha256": "1c9642fc169aafd0b841a6c43db21c2a2d6b4780b9077f309d650fdfe94d09d3",
-      "downloadUrl": "https://raw.githubusercontent.com/elhizazi1/jamal-repository/main/extensions/me.elhizazi.jamal.github.repository.example/1.0.0/me.elhizazi.jamal.github.repository.example-1.0.0.r1",
-      "homepageUrl": "https://elhizazi1.github.io/jamal-repository/extensions/me.elhizazi.jamal.github.repository.example/1.0.0/",
-      "documentationUrl": "https://elhizazi1.github.io/jamal-repository/extensions/me.elhizazi.jamal.github.repository.example/1.0.0/",
-      "license": "MIT",
-      "tags": [
-        "snippets",
-        "terminal-theme",
-        "example"
-      ],
-      "changelog": "First release.",
-      "i18n": {
-        "ar": {
-          "name": "مثال جمال",
-          "description": "إضافة مثال صغيرة وآمنة: مقتطفات سريعة لـ JavaScript وHTML وCSS وPython، وأمران لإدراج ترويسة الملف، وسمة الطرفية «ليل جمال». بلا صلاحيات وبلا كود تنفيذي."
-        },
-        "en": {
-          "name": "Jamal Example",
-          "description": "A small, safe example extension: quick snippets for JavaScript, HTML, CSS and Python, two file-header commands, and the Jamal Night terminal theme. No permissions and no code."
-        },
-        "zh-CN": {
-          "name": "Jamal 示例",
-          "description": "小巧安全的示例扩展：JavaScript、HTML、CSS 和 Python 的快捷代码片段、两个文件头命令，以及 Jamal Night 终端主题。无需任何权限，不含可执行代码。"
-        },
-        "zh-TW": {
-          "name": "Jamal 範例",
-          "description": "小巧安全的範例擴充功能：JavaScript、HTML、CSS 與 Python 的快速程式碼片段、兩個檔案標頭指令，以及 Jamal Night 終端機主題。無需任何權限，不含可執行程式碼。"
-        }
-      }
-    },
-    {
       "id": "me.elhizazi.jamal.github.repository.language.french",
       "name": "French Language Pack",
       "version": "1.0.0",
-      "publisher": "RawanIDE Official",
+      "publisher": "Jamal El Hizazi",
       "description": "French interface language pack for RawanIDE. Provides French UI strings.",
       "category": "Language Packs",
       "icon": "https://raw.githubusercontent.com/elhizazi1/jamal-repository/main/extensions/me.elhizazi.jamal.github.repository.language.french/1.0.0/french-language.webp",
       "apiVersion": "1.0",
       "runtime": null,
       "permissions": [],
-      "sizeBytes": 47195,
-      "sha256": "ff18d4184976f4611bb0d715f2c652866eb081a8af3e5395452feca700efb105",
+      "sizeBytes": 48666,
+      "sha256": "2f513e5b9b23acaeafe5639cd33b73069ed3e005d0228362bf16907a8c696561",
       "downloadUrl": "https://raw.githubusercontent.com/elhizazi1/jamal-repository/main/extensions/me.elhizazi.jamal.github.repository.language.french/1.0.0/me.elhizazi.jamal.github.repository.language.french-1.0.0.r1",
       "homepageUrl": "https://elhizazi1.github.io/jamal-repository/extensions/me.elhizazi.jamal.github.repository.language.french/1.0.0/",
       "documentationUrl": "https://elhizazi1.github.io/jamal-repository/extensions/me.elhizazi.jamal.github.repository.language.french/1.0.0/",
@@ -91,17 +49,17 @@
       ],
       "changelog": "Initial release of the French language pack.",
       "i18n": {
-        "fr": {
-          "name": "Pack de langue française",
-          "description": "Ajoute la prise en charge de la langue française à RawanIDE, y compris la traduction de l'interface."
+        "en": {
+          "name": "French Language Pack",
+          "description": "Adds French language support to RawanIDE, including French interface translations."
         },
         "ar": {
           "name": "حزمة اللغة الفرنسية",
           "description": "تضيف دعم اللغة الفرنسية إلى RawanIDE، وتشمل ترجمة كاملة لواجهة المستخدم."
         },
-        "en": {
-          "name": "French Language Pack",
-          "description": "Adds French language support to RawanIDE, including French interface translations."
+        "fr": {
+          "name": "Pack de langue française",
+          "description": "Ajoute la prise en charge de la langue française à RawanIDE, y compris la traduction de l'interface."
         }
       }
     }
