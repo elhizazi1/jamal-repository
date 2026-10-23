@@ -7,7 +7,7 @@
   "publisher": "Jamal El Hizazi",
   "version": "1.0.1",
   "apiVersion": "1.0",
-  "runtime": "declarative",
+  "runtime": null,
   "permissions": [],
   "icon": "french-language.webp",
   "package": {
@@ -15,7 +15,7 @@
     "size": 48856,
     "sha256": "a94781276d6f744c2116f247a615334e010484c51ec75ef424cbf396a56e475f"
   },
-  "publishedAt": "2026-10-23",
+  "publishedAt": "2026-10-22",
   "featured": false,
   "i18n": {
     "en": {
@@ -49,20 +49,12 @@
     ]
   },
   "releases": {
-    "1.0.0": {
+    "1.0.1": {
       "date": "2026-10-22",
       "notes": {
         "en": "Initial release of the French language pack.",
         "ar": "الإصدار الأولي لحزمة اللغة الفرنسية.",
         "fr": "Version initiale du pack de langue française."
-      }
-    },
-    "1.0.1": {
-      "date": "2026-10-23",
-      "notes": {
-        "en": "Added translations for Market Place repository states (unverified, unreachable) and removed extensions notices.",
-        "ar": "إضافة ترجمات لحالات مستودعات Market Place (غير موثق، تعذر التحديث) وإشعارات الإضافات المزالة.",
-        "fr": "Ajout de traductions pour les états des dépôts Market Place (non vérifié, mise à jour impossible) et les notifications d'extensions retirées."
       }
     }
   }
