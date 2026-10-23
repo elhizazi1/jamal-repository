@@ -30,24 +30,24 @@
     {
       "id": "me.elhizazi.jamal.github.repository.language.french",
       "name": "French Language Pack",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "publisher": "Jamal El Hizazi",
       "description": "French interface language pack for RawanIDE. Provides French UI strings.",
       "category": "Language Packs",
-      "icon": "https://raw.githubusercontent.com/elhizazi1/jamal-repository/main/extensions/me.elhizazi.jamal.github.repository.language.french/1.0.0/french-language.webp",
+      "icon": "https://raw.githubusercontent.com/elhizazi1/jamal-repository/main/extensions/me.elhizazi.jamal.github.repository.language.french/1.0.1/french-language.webp",
       "apiVersion": "1.0",
       "runtime": "declarative",
       "permissions": [],
-      "sizeBytes": 48666,
-      "sha256": "2f513e5b9b23acaeafe5639cd33b73069ed3e005d0228362bf16907a8c696561",
-      "downloadUrl": "https://raw.githubusercontent.com/elhizazi1/jamal-repository/main/extensions/me.elhizazi.jamal.github.repository.language.french/1.0.0/me.elhizazi.jamal.github.repository.language.french-1.0.0.r1",
-      "homepageUrl": "https://elhizazi1.github.io/jamal-repository/extensions/me.elhizazi.jamal.github.repository.language.french/1.0.0/",
-      "documentationUrl": "https://elhizazi1.github.io/jamal-repository/extensions/me.elhizazi.jamal.github.repository.language.french/1.0.0/",
+      "sizeBytes": 48856,
+      "sha256": "a94781276d6f744c2116f247a615334e010484c51ec75ef424cbf396a56e475f",
+      "downloadUrl": "https://raw.githubusercontent.com/elhizazi1/jamal-repository/main/extensions/me.elhizazi.jamal.github.repository.language.french/1.0.1/me.elhizazi.jamal.github.repository.language.french-1.0.1.r1",
+      "homepageUrl": "https://elhizazi1.github.io/jamal-repository/extensions/me.elhizazi.jamal.github.repository.language.french/1.0.1/",
+      "documentationUrl": "https://elhizazi1.github.io/jamal-repository/extensions/me.elhizazi.jamal.github.repository.language.french/1.0.1/",
       "tags": [
         "language-pack",
         "french"
       ],
-      "changelog": "Initial release of the French language pack.",
+      "changelog": "Added translations for Market Place repository states (unverified, unreachable) and removed extensions notices.",
       "i18n": {
         "en": {
           "name": "French Language Pack",
