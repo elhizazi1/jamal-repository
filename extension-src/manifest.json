@@ -5,6 +5,7 @@
   "publisher": "Jamal El Hizazi",
   "description": "French interface language pack for RawanIDE. Provides French UI strings.",
   "apiVersion": "1.0",
+  "runtime": "declarative",
   "category": "Language Packs",
   "icon": "icons/french-language.webp",
   "permissions": [],

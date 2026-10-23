@@ -36,7 +36,7 @@
       "category": "Language Packs",
       "icon": "https://raw.githubusercontent.com/elhizazi1/jamal-repository/main/extensions/me.elhizazi.jamal.github.repository.language.french/1.0.1/french-language.webp",
       "apiVersion": "1.0",
-      "runtime": null,
+      "runtime": "declarative",
       "permissions": [],
       "sizeBytes": 48856,
       "sha256": "a94781276d6f744c2116f247a615334e010484c51ec75ef424cbf396a56e475f",
