@@ -115,6 +115,8 @@ function buildExtension(ec, index) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(String(ec.releaseDate || ''))) fail(`${where}: "releaseDate" must be YYYY-MM-DD`)
   if (!ec.changelog || typeof ec.changelog.en !== 'string' || !ec.changelog.en) fail(`${where}: "changelog.en" is required`)
   if (!Array.isArray(ec.tags) || !ec.tags.every((t) => typeof t === 'string')) fail(`${where}: "tags" must be an array of strings`)
+  // optional SPDX licence id for the listing ("MIT"); kept in repo.config.json so it is never lost when repository.json is regenerated
+  if (ec.license !== undefined && !(typeof ec.license === 'string' && /^[A-Za-z0-9.+() -]{1,64}$/.test(ec.license))) fail(`${where}: "license" must be a short licence id such as "MIT"`)
 
   const manifest = JSON.parse(read(`${ec.src}/manifest.json`))
   if (!ID.test(manifest.id)) fail(`${ec.src}: extension id is invalid`)
@@ -182,6 +184,7 @@ function buildExtension(ec, index) {
     tags: ec.tags,
     changelog: ec.changelog.en,
     i18n,
+    ...(ec.license ? { license: ec.license } : {}),
   }
 
   // marketplace.json (same layout as the official repository)

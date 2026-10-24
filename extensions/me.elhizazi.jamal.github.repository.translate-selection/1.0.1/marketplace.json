@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 2,
+  "id": "me.elhizazi.jamal.github.repository.translate-selection",
+  "name": "Translate Selection",
+  "description": "Translate selected editor text in a bottom sheet, then copy or safely replace the original selection.",
+  "category": "Productivity",
+  "publisher": "Jamal El Hizazi",
+  "version": "1.0.1",
+  "apiVersion": "1.0",
+  "runtime": "hosted-js",
+  "permissions": [
+    "EDITOR_WRITE",
+    "NETWORK_ACCESS"
+  ],
+  "icon": "icon.webp",
+  "package": {
+    "file": "me.elhizazi.jamal.github.repository.translate-selection-1.0.1.r1",
+    "size": 21029,
+    "sha256": "d09fae5e1cabf9f48bd1f3fe53cbccac8c3272e2dbcc5d6680dec8b7172f0d9c"
+  },
+  "publishedAt": "2026-10-24",
+  "featured": false,
+  "i18n": {
+    "en": {
+      "name": "Translate Selection",
+      "description": "Translate selected editor text in a bottom sheet, then copy it or safely replace the original selection."
+    },
+    "ar": {
+      "name": "ترجمة النص المحدد",
+      "description": "ترجم النص المحدد في المحرر داخل نافذة سفلية، ثم انسخه أو استبدل النص الأصلي."
+    }
+  },
+  "longDescription": {},
+  "links": {
+    "homepage": "https://elhizazi1.github.io/jamal-repository/extensions/me.elhizazi.jamal.github.repository.translate-selection/1.0.1/",
+    "repository": "https://github.com/elhizazi1/jamal-repository"
+  },
+  "screenshots": [],
+  "highlights": {
+    "commandCount": 1,
+    "commands": [
+      {
+        "id": "translate-selection.open",
+        "title": "Translate / ترجمة",
+        "languages": [
+          "*"
+        ]
+      }
+    ],
+    "languages": [],
+    "fileLanguages": [],
+    "contributes": []
+  },
+  "releases": {
+    "1.0.1": {
+      "date": "2026-10-24",
+      "notes": {
+        "en": "The selection toolbar icon is drawn larger and the command no longer appears in the commands list: use the toolbar icon.",
+        "ar": "أيقونة شريط التحديد أصبحت أكبر، ولم يعد الأمر يظهر في قائمة الأوامر: استخدم الأيقونة في الشريط."
+      }
+    }
+  }
+}

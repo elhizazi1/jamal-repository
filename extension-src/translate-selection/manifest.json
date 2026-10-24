@@ -1,7 +1,7 @@
 {
   "id": "me.elhizazi.jamal.github.repository.translate-selection",
   "name": "Translate Selection",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publisher": "Jamal El Hizazi",
   "description": "Translate selected editor text in a bottom sheet, then copy or safely replace the original selection.",
   "apiVersion": "1.0",
@@ -21,6 +21,7 @@
       "id": "translate-selection.open",
       "title": "Translate / ترجمة",
       "runtime": true,
+      "hidden": true,
       "languages": [
         "*"
       ]
@@ -51,5 +52,5 @@
   "activationEvents": [
     "onStartup"
   ],
-  "changelog": "Fixed Arabic strings JSON, corrected translation-service privacy documentation and icon path, and aligned localization with API 1.0."
+  "changelog": "The selection toolbar icon is drawn larger (cropped artwork), and the command no longer appears in the commands list: use the toolbar icon."
 }

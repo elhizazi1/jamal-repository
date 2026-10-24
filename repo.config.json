@@ -8,21 +8,30 @@
       "src": "extension-src/french",
       "releaseDate": "2026-10-22",
       "runtimeOverride": "declarative",
-      "tags": ["language-pack", "french"],
+      "tags": [
+        "language-pack",
+        "french"
+      ],
       "changelog": {
         "en": "Initial release of the French language pack.",
         "ar": "الإصدار الأولي لحزمة اللغة الفرنسية.",
         "fr": "Version initiale du pack de langue française."
-      }
+      },
+      "license": "MIT"
     },
     {
       "src": "extension-src/translate-selection",
       "releaseDate": "2026-10-24",
-      "tags": ["translate", "translation", "editor"],
+      "tags": [
+        "translate",
+        "translation",
+        "editor"
+      ],
       "changelog": {
-        "en": "Initial release: translate the selected text in a bottom sheet, then copy it or safely replace the original selection.",
-        "ar": "الإصدار الأولي: ترجمة النص المحدد في نافذة سفلية، ثم نسخه أو استبدال التحديد الأصلي بأمان."
-      }
+        "en": "The selection toolbar icon is drawn larger and the command no longer appears in the commands list: use the toolbar icon.",
+        "ar": "أيقونة شريط التحديد أصبحت أكبر، ولم يعد الأمر يظهر في قائمة الأوامر: استخدم الأيقونة في الشريط."
+      },
+      "license": "MIT"
     }
   ]
 }
