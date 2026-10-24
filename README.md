@@ -4,10 +4,10 @@
 
 Repository ID: `me.elhizazi.jamal.github.repository` · Extension: `me.elhizazi.jamal.github.repository.language.french`
 
-المعرّف يُوثَّق مرة واحدة فقط في Market Plus، لذلك لكل نسخة معرّف مختلف. / An ID can be claimed only once in Market Plus, so each copy has its own.
+المعرّف يُوثَّق مرة واحدة فقط في MarketPlace، لذلك لكل نسخة معرّف مختلف. / An ID can be claimed only once in MarketPlace, so each copy has its own.
 
 ```
-repository.json                      ← the file RawanIDE / Market Plus reads · الملف الذي يقرأه التطبيق
+repository.json                      ← the file RawanIDE / MarketPlace reads · الملف الذي يقرأه التطبيق
 index.html                           ← repository page · صفحة المستودع
 icon.svg
 about/index.html                     ← developer page · صفحة عن المطوّر
@@ -15,7 +15,7 @@ assets/site.css, site.js, extras.js  ← shared by all pages (no external reques
 extension-src/                       ← exact contents of the published package (manifest.json, strings/fr.json, icons/, README.md)
 extensions/<id>/<version>/           ← <id>-<version>.r1   french-language.webp   marketplace.json   index.html
 tools/build.mjs                      ← packs/reuses the .r1, computes SHA-256 + size, rewrites repository.json and marketplace.json
-repo.config.json                     ← owner, repo, branch, Market Plus verification code
+repo.config.json                     ← owner, repo, branch, MarketPlace verification code
 ```
 
 ---
@@ -59,17 +59,17 @@ repo.config.json                     ← owner, repo, branch, Market Plus verifi
    الموقع بعد دقيقتين على: `https://elhizazi1.github.io/jamal-repository/`
    ويجب أن يفتح `https://elhizazi1.github.io/jamal-repository/repository.json` في نافذة تصفح خفي (Incognito) بدون تسجيل دخول.
 
-## 2) التوثيق في Market Plus · Verification
+## 2) التوثيق في MarketPlace · Verification
 
-1. في موقع Market Plus: اختر «Claim repository» بالمعرّف `me.elhizazi.jamal.github.repository` ورابط المستودع `https://github.com/<owner>/jamal-repository`.
+1. في موقع MarketPlace: اختر «Claim repository» بالمعرّف `me.elhizazi.jamal.github.repository` ورابط المستودع `https://github.com/<owner>/jamal-repository`.
 2. انسخ رمز التحقق إلى `"verification"` في **`repo.config.json`** (وليس `repository.json`)، ثم:
    ```bash
    node tools/build.mjs
    git add .
-   git commit -m "Add Market Plus verification code"
+   git commit -m "Add MarketPlace verification code"
    git push
    ```
-3. انتظر دقيقة حتى يتحدّث الموقع، تأكد أن الرمز ظاهر في `https://elhizazi1.github.io/jamal-repository/repository.json`، ثم اضغط «التحقق» في Market Plus.
+3. انتظر دقيقة حتى يتحدّث الموقع، تأكد أن الرمز ظاهر في `https://elhizazi1.github.io/jamal-repository/repository.json`، ثم اضغط «التحقق» في MarketPlace.
 
 > `repository.json` يُولَّد من `repo.config.json`. لا تعدّله يدويًا: أول بناء قادم سيمحو تعديلك. / `repository.json` is generated from `repo.config.json`; do not edit it by hand.
 
@@ -86,7 +86,7 @@ node tools/build.mjs
 git add . && git commit -m "Release <version>" && git push
 ```
 
-**لا تعدّل `.r1` منشورًا أبدًا.** Market Plus يثبّت بصمة SHA-256 لكل إصدار ويوقف المستودع إذا تغيّرت البايتات المنشورة. لذلك `tools/build.mjs` يعيد استخدام الحزمة الموجودة إذا لم يتغير محتوى `extension-src`، ويتوقف بخطأ إذا تغيّر دون رفع `version`.
+**لا تعدّل `.r1` منشورًا أبدًا.** MarketPlace يثبّت بصمة SHA-256 لكل إصدار ويوقف المستودع إذا تغيّرت البايتات المنشورة. لذلك `tools/build.mjs` يعيد استخدام الحزمة الموجودة إذا لم يتغير محتوى `extension-src`، ويتوقف بخطأ إذا تغيّر دون رفع `version`.
 / Never edit a published `.r1`. The build reuses the existing package when `extension-src` is unchanged and refuses to run if it changed without a version bump.
 
 ## حل المشاكل · Troubleshooting
