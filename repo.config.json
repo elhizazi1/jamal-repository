@@ -2,5 +2,27 @@
   "owner": "elhizazi1",
   "repo": "jamal-repository",
   "branch": "main",
-  "verification": "rwm-JESA_3A_atXAHX9HX52WhoH6"
+  "verification": "rwm-JESA_3A_atXAHX9HX52WhoH6",
+  "extensions": [
+    {
+      "src": "extension-src/french",
+      "releaseDate": "2026-10-22",
+      "runtimeOverride": "declarative",
+      "tags": ["language-pack", "french"],
+      "changelog": {
+        "en": "Initial release of the French language pack.",
+        "ar": "الإصدار الأولي لحزمة اللغة الفرنسية.",
+        "fr": "Version initiale du pack de langue française."
+      }
+    },
+    {
+      "src": "extension-src/translate-selection",
+      "releaseDate": "2026-10-24",
+      "tags": ["translate", "translation", "editor"],
+      "changelog": {
+        "en": "Initial release: translate the selected text in a bottom sheet, then copy it or safely replace the original selection.",
+        "ar": "الإصدار الأولي: ترجمة النص المحدد في نافذة سفلية، ثم نسخه أو استبدال التحديد الأصلي بأمان."
+      }
+    }
+  ]
 }

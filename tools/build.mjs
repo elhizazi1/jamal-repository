@@ -1,11 +1,12 @@
 #!/usr/bin/env node
-// Builds the repository: packs extension-src/ into a .r1 (or reuses the published one), computes its SHA-256 and size, and writes
-//   - extensions/<id>/<version>/<id>-<version>.r1, <icon>, marketplace.json, index.html (page data)
-//   - repository.json (the file RawanIDE / MarketPlace reads)
-// and refreshes the data embedded in index.html, about/index.html and the current extension page so the pages also work offline.
+// Builds the repository. For every extension listed in repo.config.json ("extensions") it
+//   - packs extension-src/<name>/ into a .r1 (or reuses the published one) and computes its SHA-256 and size
+//   - writes extensions/<id>/<version>/<id>-<version>.r1, <icon>, marketplace.json, index.html (page)
+// and then writes repository.json (the file RawanIDE / MarketPlace reads) and refreshes the data embedded in
+// index.html, about/index.html and every extension page so the pages also work offline.
 //
 // Usage:  node tools/build.mjs          (no dependencies, Node 18+)
-// Edit repo.config.json first: owner, repo, branch, and the MarketPlace verification code once you have it.
+// Edit repo.config.json first: owner, repo, branch, the MarketPlace verification code, and the "extensions" list.
 
 import fs from 'node:fs'
 import path from 'node:path'
@@ -36,21 +37,16 @@ const fail = (m) => { console.error('✗ ' + m); process.exit(1) }
 // ---------- config ----------
 const cfg = JSON.parse(read('repo.config.json'))
 for (const k of ['owner', 'repo', 'branch']) if (!/^[A-Za-z0-9._-]+$/.test(String(cfg[k] || ''))) fail(`repo.config.json: "${k}" is missing or invalid`)
+if (!Array.isArray(cfg.extensions) || !cfg.extensions.length) fail('repo.config.json: "extensions" must list at least one extension')
 
-// ---------- extension ----------
-const manifest = JSON.parse(read('extension-src/manifest.json'))
 const ID = /^[a-z0-9][a-z0-9._-]{2,127}$/
-if (!ID.test(manifest.id)) fail('extension id is invalid')
 if (!ID.test(REPOSITORY.id)) fail('repository id is invalid')
-if (!/^[0-9A-Za-z][0-9A-Za-z.+_-]{0,63}$/.test(manifest.version)) fail('extension version is invalid')
-const RUNTIME = manifest.runtime == null ? null : manifest.runtime // language packs (data only) have no runtime
-if (RUNTIME !== null && RUNTIME !== 'declarative' && RUNTIME !== 'hosted-js') fail('community repositories allow only "declarative", "hosted-js" or no runtime')
-const ICON_SRC = String(manifest.icon || '')
-if (!ICON_SRC || !fs.existsSync(path.join(root, 'extension-src', ICON_SRC))) fail(`manifest icon "${ICON_SRC}" not found in extension-src/`)
-const ICON_NAME = path.posix.basename(ICON_SRC)
-const languages = ((manifest.localization && manifest.localization.languages) || []).map((l) => l.nativeName || l.name)
 const BLOCKED = ['TERMINAL_ACCESS', 'PROCESS_EXECUTION', 'DEVICE_FILES_READ', 'DEVICE_FILES_WRITE']
-if ((manifest.permissions || []).some((p) => BLOCKED.includes(p))) fail('sensitive permissions are not allowed for community extensions')
+
+// ---------- links ----------
+const rawBase = `https://raw.githubusercontent.com/${cfg.owner}/${cfg.repo}/${cfg.branch}`
+const repositoryUrl = `https://github.com/${cfg.owner}/${cfg.repo}`
+const pagesUrl = `https://${cfg.owner.toLowerCase()}.github.io/${cfg.repo}/`
 
 // ---------- zip (deterministic: sorted names, fixed timestamps) ----------
 const CRC = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0 } return t })()
@@ -94,15 +90,9 @@ function makeZip(entries) {
   return Buffer.concat([...locals, centralBuf, end])
 }
 
-const entries = walk(path.join(root, 'extension-src'))
-if (!entries.some((e) => e.name === 'manifest.json')) fail('extension-src/manifest.json is missing')
-const folder = `extensions/${manifest.id}/${manifest.version}`
-const fileName = `${manifest.id}-${manifest.version}.r1`
-fs.mkdirSync(path.join(root, folder), { recursive: true })
-
 // A published .r1 is immutable: MarketPlace pins its SHA-256, and compressed bytes can differ between Node versions.
-// If the file already exists and its contents match extension-src, its exact bytes are reused (same SHA-256 everywhere).
-// If extension-src changed without a version bump, the build stops instead of silently changing a published file.
+// If the file already exists and its contents match the extension source, its exact bytes are reused (same SHA-256 everywhere).
+// If the source changed without a version bump, the build stops instead of silently changing a published file.
 function zipCrcs(buf) {
   const map = new Map()
   let p = buf.readUInt32LE(buf.length - 6) // central directory offset (archive has no trailing comment)
@@ -113,39 +103,145 @@ function zipCrcs(buf) {
   }
   return map
 }
-const target = path.join(root, folder, fileName)
-let pkg
-if (fs.existsSync(target)) {
-  const existing = fs.readFileSync(target)
-  const have = zipCrcs(existing)
-  const same = have.size === entries.length && entries.every((e) => have.get(e.name) === crc32(e.data))
-  if (!same) fail(`${fileName} already exists and extension-src has changed. Bump "version" in extension-src/manifest.json to publish a new version (never edit a published .r1).`)
-  pkg = existing
-  console.log(`= reusing existing ${fileName} (unchanged contents)`)
-} else {
-  pkg = makeZip(entries)
-  fs.writeFileSync(target, pkg)
-}
-const sha256 = crypto.createHash('sha256').update(pkg).digest('hex')
-const sizeBytes = pkg.length
-// writeFileSync instead of copyFileSync: copyfile fails with EPERM on some Android/Termux setups
-fs.writeFileSync(path.join(root, folder, ICON_NAME), fs.readFileSync(path.join(root, 'extension-src', ICON_SRC)))
 
-// ---------- links ----------
-const rawBase = `https://raw.githubusercontent.com/${cfg.owner}/${cfg.repo}/${cfg.branch}`
-const repositoryUrl = `https://github.com/${cfg.owner}/${cfg.repo}`
-const pagesUrl = `https://${cfg.owner.toLowerCase()}.github.io/${cfg.repo}/`
-const downloadUrl = `${rawBase}/${folder}/${fileName}`
-const i18n = manifest.localizedMetadata
-if (!i18n || !i18n.en) fail('extension-src/manifest.json: localizedMetadata.en is required')
-const RELEASE_DATE = '2026-10-22'
-const CHANGELOG = {
-  en: 'Initial release of the French language pack.',
-  ar: 'الإصدار الأولي لحزمة اللغة الفرنسية.',
-  fr: 'Version initiale du pack de langue française.',
+const escHtml = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+
+// ---------- one extension ----------
+const seenIds = new Set()
+function buildExtension(ec, index) {
+  const where = `repo.config.json: extensions[${index}]`
+  if (!/^extension-src\/[A-Za-z0-9._-]+$/.test(String(ec.src || ''))) fail(`${where}: "src" must look like "extension-src/<name>"`)
+  if (!fs.existsSync(path.join(root, ec.src, 'manifest.json'))) fail(`${ec.src}/manifest.json is missing`)
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(String(ec.releaseDate || ''))) fail(`${where}: "releaseDate" must be YYYY-MM-DD`)
+  if (!ec.changelog || typeof ec.changelog.en !== 'string' || !ec.changelog.en) fail(`${where}: "changelog.en" is required`)
+  if (!Array.isArray(ec.tags) || !ec.tags.every((t) => typeof t === 'string')) fail(`${where}: "tags" must be an array of strings`)
+
+  const manifest = JSON.parse(read(`${ec.src}/manifest.json`))
+  if (!ID.test(manifest.id)) fail(`${ec.src}: extension id is invalid`)
+  if (seenIds.has(manifest.id)) fail(`${ec.src}: extension id ${manifest.id} is used twice`)
+  seenIds.add(manifest.id)
+  if (!/^[0-9A-Za-z][0-9A-Za-z.+_-]{0,63}$/.test(manifest.version)) fail(`${ec.src}: extension version is invalid`)
+  const PACKAGED_RUNTIME = manifest.runtime == null ? null : manifest.runtime // language packs (data only) have no runtime
+  // "runtimeOverride" is what repository.json / marketplace.json list when it must differ from the packaged manifest
+  // (a published .r1 cannot be edited, so a runtime added to the manifest later can only be listed here until the next version).
+  const RUNTIME = ec.runtimeOverride === undefined ? PACKAGED_RUNTIME : ec.runtimeOverride
+  if (RUNTIME !== null && RUNTIME !== 'declarative' && RUNTIME !== 'hosted-js') fail(`${ec.src}: community repositories allow only "declarative", "hosted-js" or no runtime`)
+  if (RUNTIME !== PACKAGED_RUNTIME) warn.push(`${manifest.id}: listed runtime "${RUNTIME}" differs from the packaged manifest (${PACKAGED_RUNTIME === null ? 'none' : PACKAGED_RUNTIME}). Put "runtime" in the manifest and publish a new version to make them match.`)
+  const ICON_SRC = String(manifest.icon || '')
+  if (!ICON_SRC || !fs.existsSync(path.join(root, ec.src, ICON_SRC))) fail(`${ec.src}: manifest icon "${ICON_SRC}" not found`)
+  const ICON_NAME = path.posix.basename(ICON_SRC)
+  const languages = ((manifest.localization && manifest.localization.languages) || []).map((l) => l.nativeName || l.name)
+  if ((manifest.permissions || []).some((p) => BLOCKED.includes(p))) fail(`${ec.src}: sensitive permissions are not allowed for community extensions`)
+  const i18n = manifest.localizedMetadata
+  if (!i18n || !i18n.en) fail(`${ec.src}/manifest.json: localizedMetadata.en is required`)
+
+  const entries = walk(path.join(root, ec.src))
+  const folder = `extensions/${manifest.id}/${manifest.version}`
+  const fileName = `${manifest.id}-${manifest.version}.r1`
+  fs.mkdirSync(path.join(root, folder), { recursive: true })
+
+  const target = path.join(root, folder, fileName)
+  let pkg
+  if (fs.existsSync(target)) {
+    const existing = fs.readFileSync(target)
+    const have = zipCrcs(existing)
+    const same = have.size === entries.length && entries.every((e) => have.get(e.name) === crc32(e.data))
+    if (!same) fail(`${fileName} already exists and ${ec.src} has changed. Bump "version" in ${ec.src}/manifest.json to publish a new version (never edit a published .r1).`)
+    pkg = existing
+    console.log(`= reusing existing ${fileName} (unchanged contents)`)
+  } else {
+    pkg = makeZip(entries)
+    fs.writeFileSync(target, pkg)
+    console.log(`+ created ${fileName}`)
+  }
+  const sha256 = crypto.createHash('sha256').update(pkg).digest('hex')
+  const sizeBytes = pkg.length
+  // writeFileSync instead of copyFileSync: copyfile fails with EPERM on some Android/Termux setups
+  fs.writeFileSync(path.join(root, folder, ICON_NAME), fs.readFileSync(path.join(root, ec.src, ICON_SRC)))
+
+  const downloadUrl = `${rawBase}/${folder}/${fileName}`
+  const commands = (manifest.commands || []).map((c) => ({ id: c.id, title: c.title, languages: c.languages || [] }))
+  const contributes = manifest.localization ? ['language-pack'] : []
+
+  const entry = {
+    id: manifest.id,
+    name: manifest.name,
+    version: manifest.version,
+    publisher: manifest.publisher,
+    description: manifest.description,
+    category: manifest.category,
+    icon: `${rawBase}/${folder}/${ICON_NAME}`,
+    apiVersion: manifest.apiVersion,
+    runtime: RUNTIME,
+    permissions: manifest.permissions || [],
+    sizeBytes,
+    sha256,
+    downloadUrl,
+    homepageUrl: `${pagesUrl}${folder}/`,
+    documentationUrl: `${pagesUrl}${folder}/`,
+    tags: ec.tags,
+    changelog: ec.changelog.en,
+    i18n,
+  }
+
+  // marketplace.json (same layout as the official repository)
+  writeJson(`${folder}/marketplace.json`, {
+    schemaVersion: 2,
+    id: manifest.id,
+    name: manifest.name,
+    description: manifest.description,
+    category: manifest.category,
+    publisher: manifest.publisher,
+    version: manifest.version,
+    apiVersion: manifest.apiVersion,
+    runtime: RUNTIME,
+    permissions: manifest.permissions || [],
+    icon: ICON_NAME,
+    package: { file: fileName, size: sizeBytes, sha256 },
+    publishedAt: ec.releaseDate,
+    featured: false,
+    i18n,
+    longDescription: {},
+    links: { homepage: `${pagesUrl}${folder}/`, repository: repositoryUrl },
+    screenshots: [],
+    highlights: {
+      commandCount: commands.length,
+      commands,
+      languages,
+      fileLanguages: [],
+      contributes,
+    },
+    releases: {
+      [manifest.version]: { date: ec.releaseDate, notes: ec.changelog },
+    },
+  })
+
+  // the extension's own page: created from the template the first time, afterwards only its embedded data is refreshed
+  const pagePath = path.join(root, folder, 'index.html')
+  if (!fs.existsSync(pagePath)) {
+    const tpl = fs.readFileSync(path.join(root, 'tools/extension-page.template.html'), 'utf8')
+    const fill = { TITLE: (i18n.ar && i18n.ar.name) || manifest.name, DESC: i18n.en.description || manifest.description, ICON: ICON_NAME, VERSION: manifest.version }
+    fs.writeFileSync(pagePath, tpl.replace(/\{\{(TITLE|DESC|ICON|VERSION)\}\}/g, (_, k) => escHtml(fill[k])))
+    console.log(`+ created ${folder}/index.html`)
+  }
+
+  // the redirect extensions/<id>/ → latest version
+  fs.writeFileSync(path.join(root, `extensions/${manifest.id}/index.html`),
+    `<!doctype html><meta charset="utf-8"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0; url=${manifest.version}/"><title>${manifest.name}</title><a href="${manifest.version}/">${manifest.name} ${manifest.version}</a>\n`)
+
+  const pageExt = {
+    id: manifest.id, name: manifest.name, version: manifest.version, publisher: manifest.publisher, category: manifest.category,
+    i18n, runtime: RUNTIME, apiVersion: manifest.apiVersion, permissions: manifest.permissions || [],
+    package: { file: fileName, sizeBytes, sha256, downloadUrl },
+    changelog: ec.changelog,
+  }
+  if (commands.length) pageExt.commands = commands
+
+  console.log(`✓ ${fileName}  ${sizeBytes} bytes  sha256 ${sha256}`)
+  return { entry, pageExt, folder }
 }
-const TAGS = ['language-pack', 'french']
-const contributes = manifest.localization ? ['language-pack'] : []
+
+const built = cfg.extensions.map(buildExtension)
 
 // ---------- repository.json ----------
 const repositoryJson = {
@@ -160,74 +256,12 @@ const repositoryJson = {
   // The code MarketPlace gives you when you claim this repository. Needed once, until it shows as verified.
   verification: cfg.verification || 'REPLACE_WITH_MARKET_PLUS_CODE',
   i18n: REPOSITORY.i18n,
-  extensions: [
-    {
-      id: manifest.id,
-      name: manifest.name,
-      version: manifest.version,
-      publisher: manifest.publisher,
-      description: manifest.description,
-      category: manifest.category,
-      icon: `${rawBase}/${folder}/${ICON_NAME}`,
-      apiVersion: manifest.apiVersion,
-      runtime: RUNTIME,
-      permissions: manifest.permissions || [],
-      sizeBytes,
-      sha256,
-      downloadUrl,
-      homepageUrl: `${pagesUrl}${folder}/`,
-      documentationUrl: `${pagesUrl}${folder}/`,
-      tags: TAGS,
-      changelog: CHANGELOG.en,
-      i18n,
-    },
-  ],
+  extensions: built.map((b) => b.entry),
 }
 writeJson('repository.json', repositoryJson)
 
-// ---------- marketplace.json (same layout as the official repository) ----------
-writeJson(`${folder}/marketplace.json`, {
-  schemaVersion: 2,
-  id: manifest.id,
-  name: manifest.name,
-  description: manifest.description,
-  category: manifest.category,
-  publisher: manifest.publisher,
-  version: manifest.version,
-  apiVersion: manifest.apiVersion,
-  runtime: RUNTIME,
-  permissions: manifest.permissions || [],
-  icon: ICON_NAME,
-  package: { file: fileName, size: sizeBytes, sha256 },
-  publishedAt: RELEASE_DATE,
-  featured: false,
-  i18n,
-  longDescription: {},
-  links: { homepage: `${pagesUrl}${folder}/`, repository: repositoryUrl },
-  screenshots: [],
-  highlights: {
-    commandCount: 0,
-    commands: [],
-    languages,
-    fileLanguages: [],
-    contributes,
-  },
-  releases: {
-    [manifest.version]: { date: RELEASE_DATE, notes: CHANGELOG },
-  },
-})
-
 // ---------- pages: refresh the embedded data (used when repository.json cannot be fetched, e.g. file://) ----------
-const pageData = {
-  repository: repositoryJson,
-  extension: {
-    id: manifest.id, name: manifest.name, version: manifest.version, publisher: manifest.publisher, category: manifest.category,
-    i18n, runtime: RUNTIME, apiVersion: manifest.apiVersion, permissions: manifest.permissions || [],
-    package: { file: fileName, sizeBytes, sha256, downloadUrl },
-    changelog: CHANGELOG,
-  },
-}
-const inject = (page, data = pageData) => {
+const inject = (page, data) => {
   const full = path.join(root, page)
   if (!fs.existsSync(full)) return
   const html = fs.readFileSync(full, 'utf8')
@@ -236,15 +270,10 @@ const inject = (page, data = pageData) => {
   if (next === html && !html.includes(json)) warn.push(`${page}: no <!--DATA--> marker found`)
   fs.writeFileSync(full, next)
 }
-inject('index.html')
-inject(`${folder}/index.html`)
+inject('index.html', { repository: repositoryJson })
 inject('about/index.html', { repository: repositoryJson }) // developer page: repository data only (extension list + MarketPlace check)
+for (const b of built) inject(`${b.folder}/index.html`, { repository: repositoryJson, extension: b.pageExt })
 
-// latest-version redirect: extensions/<id>/index.html
-fs.writeFileSync(path.join(root, `extensions/${manifest.id}/index.html`),
-  `<!doctype html><meta charset="utf-8"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0; url=${manifest.version}/"><title>${manifest.name}</title><a href="${manifest.version}/">${manifest.name} ${manifest.version}</a>\n`)
-
-console.log(`✓ ${fileName}  ${sizeBytes} bytes  sha256 ${sha256}`)
-console.log(`✓ repository.json  →  ${repositoryUrl}`)
+console.log(`✓ repository.json  →  ${repositoryUrl}  (${built.length} extension${built.length === 1 ? '' : 's'})`)
 console.log(`✓ pages            →  ${pagesUrl}`)
 for (const w of warn) console.warn('! ' + w)

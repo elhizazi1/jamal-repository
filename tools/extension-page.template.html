@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}}</title>
+<meta name="description" content="{{DESC}}">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="{{ICON}}" type="image/webp">
+<link rel="stylesheet" href="../../../assets/site.css">
+<script src="../../../assets/site.js" defer></script>
+<script src="../../../assets/extras.js" defer></script>
+</head>
+<body data-page="ext" data-root="../../../">
+<header class="bar">
+  <div class="wrap bar-in">
+    <a class="brand" href="../../../"><img src="../../../icon.svg" alt="" width="36" height="36"><span data-i18n="brand">مستودع جمال</span></a>
+    <div class="langs" data-langs role="group" aria-label="Language"></div>
+  </div>
+</header>
+<nav class="nav" aria-label="Main">
+  <div class="wrap nav-in">
+    <a href="../../../#extensions" data-i18n="nav_ext" aria-current="true">الإضافات</a>
+    <a href="../../../#how" data-i18n="nav_how">التثبيت</a>
+    <a href="../../../#details" data-i18n="nav_details">التفاصيل</a>
+    <a href="../../../about/" data-i18n="nav_about">عن المطوّر</a>
+  </div>
+</nav>
+<div class="wrap">
+  <main>
+    <div class="hero">
+      <a class="crumb" href="../../../#extensions"><span class="arrow" aria-hidden="true">&#8249;</span><span data-i18n="back">كل الإضافات</span></a>
+      <div class="hero-media"><img src="{{ICON}}" alt="" width="104" height="104"></div>
+      <div class="hero-id">
+        <h1 data-ext-name>{{TITLE}}</h1>
+        <div class="orn" aria-hidden="true"><i></i></div>
+      </div>
+      <p class="lead" data-ext-desc></p>
+      <div class="hero-extra"><div class="meta" data-ext-meta></div></div>
+    </div>
+
+    <section id="install" aria-labelledby="inst-h">
+      <h2 id="inst-h" data-i18n="e_install_title">ثبّتها من التطبيق</h2>
+      <p class="hint" data-i18n="e_install_lead"></p>
+      <div class="address">
+        <div class="address-field" data-repo-url tabindex="0"></div>
+        <button class="btn" type="button" data-copy-main>نسخ الرابط</button>
+      </div>
+      <p class="status" data-status data-state="checking" role="status">…</p>
+    </section>
+
+    <section id="ext-details" aria-labelledby="det-h">
+      <h2 id="det-h" data-i18n="e_details">تفاصيل الإضافة</h2>
+      <dl class="facts" data-facts></dl>
+      <p><a class="btn" data-download href="#">تنزيل ملف .r1</a></p>
+    </section>
+
+    <section id="changelog" aria-labelledby="log-h">
+      <h2 id="log-h" data-i18n="e_changelog">ما الجديد</h2>
+      <p>v{{VERSION}} &middot; <span data-changelog></span></p>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <div class="wrap foot">
+    <span data-i18n="foot_note">كل إصدار يُنزَّل من GitHub ويُتحقَّق من SHA-256 قبل التثبيت.</span>
+    <span class="links">
+      <a href="../../../about/" data-i18n="nav_about">عن المطوّر</a>
+      <a href="https://rawanide.elhizazi.me/repositories" rel="noopener" data-i18n="foot_market">MarketPlace</a>
+      <a href="https://github.com/elhizazi1" rel="noopener">GitHub</a>
+    </span>
+    <small>© 2026 Jamal El Hizazi</small>
+  </div>
+</footer>
+<!--DATA--><!--/DATA-->
+</body>
+</html>

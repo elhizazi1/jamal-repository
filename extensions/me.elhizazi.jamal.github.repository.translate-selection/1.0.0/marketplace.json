@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 2,
+  "id": "me.elhizazi.jamal.github.repository.translate-selection",
+  "name": "Translate Selection",
+  "description": "Translate selected editor text in a bottom sheet, then copy or safely replace the original selection.",
+  "category": "Productivity",
+  "publisher": "Jamal El Hizazi",
+  "version": "1.0.0",
+  "apiVersion": "1.0",
+  "runtime": "hosted-js",
+  "permissions": [
+    "EDITOR_WRITE",
+    "NETWORK_ACCESS"
+  ],
+  "icon": "icon.webp",
+  "package": {
+    "file": "me.elhizazi.jamal.github.repository.translate-selection-1.0.0.r1",
+    "size": 21027,
+    "sha256": "47d94b6e09e8cb1642aaa0609cafebfe9a111b99640bc855532237ee01b56c1c"
+  },
+  "publishedAt": "2026-10-24",
+  "featured": false,
+  "i18n": {
+    "en": {
+      "name": "Translate Selection",
+      "description": "Translate selected editor text in a bottom sheet, then copy it or safely replace the original selection."
+    },
+    "ar": {
+      "name": "ترجمة النص المحدد",
+      "description": "ترجم النص المحدد في المحرر داخل نافذة سفلية، ثم انسخه أو استبدل النص الأصلي."
+    }
+  },
+  "longDescription": {},
+  "links": {
+    "homepage": "https://elhizazi1.github.io/jamal-repository/extensions/me.elhizazi.jamal.github.repository.translate-selection/1.0.0/",
+    "repository": "https://github.com/elhizazi1/jamal-repository"
+  },
+  "screenshots": [],
+  "highlights": {
+    "commandCount": 1,
+    "commands": [
+      {
+        "id": "translate-selection.open",
+        "title": "Translate / ترجمة",
+        "languages": [
+          "*"
+        ]
+      }
+    ],
+    "languages": [],
+    "fileLanguages": [],
+    "contributes": []
+  },
+  "releases": {
+    "1.0.0": {
+      "date": "2026-10-24",
+      "notes": {
+        "en": "Initial release: translate the selected text in a bottom sheet, then copy it or safely replace the original selection.",
+        "ar": "الإصدار الأولي: ترجمة النص المحدد في نافذة سفلية، ثم نسخه أو استبدال التحديد الأصلي بأمان."
+      }
+    }
+  }
+}

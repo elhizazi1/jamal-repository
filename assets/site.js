@@ -246,7 +246,8 @@
 
     var facts = document.querySelector('[data-facts]')
     if (facts) {
-      var ext = (repo.extensions || [])[0]
+      var runtimes = []
+      ;(repo.extensions || []).forEach(function (x) { var r = x.runtime === 'declarative' ? t('runtime_declarative') : x.runtime; if (r && runtimes.indexOf(r) < 0) runtimes.push(r) })
       var perms = {}
       ;(repo.extensions || []).forEach(function (x) { (x.permissions || []).forEach(function (p) { perms[p] = 1 }) })
       var permList = Object.keys(perms)
@@ -256,7 +257,7 @@
         ['f_publisher', repo.publisher, false],
         ['f_protocol', repo.protocol, true],
         ['f_source', 'GitHub', false],
-        ['f_runtime', ext && ext.runtime === 'declarative' ? t('runtime_declarative') : (ext && ext.runtime) || '', false],
+        ['f_runtime', runtimes.join(', '), false],
         ['f_perms', permList.length ? permList.join(', ') : t('all_none'), permList.length > 0]
       ].forEach(function (r) {
         if (!r[1]) return

@@ -62,6 +62,42 @@
           "description": "Ajoute la prise en charge de la langue française à RawanIDE, y compris la traduction de l'interface."
         }
       }
+    },
+    {
+      "id": "me.elhizazi.jamal.github.repository.translate-selection",
+      "name": "Translate Selection",
+      "version": "1.0.0",
+      "publisher": "Jamal El Hizazi",
+      "description": "Translate selected editor text in a bottom sheet, then copy or safely replace the original selection.",
+      "category": "Productivity",
+      "icon": "https://raw.githubusercontent.com/elhizazi1/jamal-repository/main/extensions/me.elhizazi.jamal.github.repository.translate-selection/1.0.0/icon.webp",
+      "apiVersion": "1.0",
+      "runtime": "hosted-js",
+      "permissions": [
+        "EDITOR_WRITE",
+        "NETWORK_ACCESS"
+      ],
+      "sizeBytes": 21027,
+      "sha256": "47d94b6e09e8cb1642aaa0609cafebfe9a111b99640bc855532237ee01b56c1c",
+      "downloadUrl": "https://raw.githubusercontent.com/elhizazi1/jamal-repository/main/extensions/me.elhizazi.jamal.github.repository.translate-selection/1.0.0/me.elhizazi.jamal.github.repository.translate-selection-1.0.0.r1",
+      "homepageUrl": "https://elhizazi1.github.io/jamal-repository/extensions/me.elhizazi.jamal.github.repository.translate-selection/1.0.0/",
+      "documentationUrl": "https://elhizazi1.github.io/jamal-repository/extensions/me.elhizazi.jamal.github.repository.translate-selection/1.0.0/",
+      "tags": [
+        "translate",
+        "translation",
+        "editor"
+      ],
+      "changelog": "Initial release: translate the selected text in a bottom sheet, then copy it or safely replace the original selection.",
+      "i18n": {
+        "en": {
+          "name": "Translate Selection",
+          "description": "Translate selected editor text in a bottom sheet, then copy it or safely replace the original selection."
+        },
+        "ar": {
+          "name": "ترجمة النص المحدد",
+          "description": "ترجم النص المحدد في المحرر داخل نافذة سفلية، ثم انسخه أو استبدل النص الأصلي."
+        }
+      }
     }
   ]
 }

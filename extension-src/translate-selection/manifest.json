@@ -1,0 +1,55 @@
+{
+  "id": "me.elhizazi.jamal.github.repository.translate-selection",
+  "name": "Translate Selection",
+  "version": "1.0.0",
+  "publisher": "Jamal El Hizazi",
+  "description": "Translate selected editor text in a bottom sheet, then copy or safely replace the original selection.",
+  "apiVersion": "1.0",
+  "runtime": "hosted-js",
+  "entrypoint": "src/extension.js",
+  "category": "Productivity",
+  "icon": "assets/icon.webp",
+  "permissions": [
+    "EDITOR_WRITE",
+    "NETWORK_ACCESS"
+  ],
+  "allowedDomains": [
+    "translate.googleapis.com"
+  ],
+  "commands": [
+    {
+      "id": "translate-selection.open",
+      "title": "Translate / ترجمة",
+      "runtime": true,
+      "languages": [
+        "*"
+      ]
+    }
+  ],
+  "contextActions": [
+    {
+      "id": "translate-selection.action",
+      "title": "Translate / ترجمة",
+      "languages": [
+        "*"
+      ],
+      "commandId": "translate-selection.open",
+      "icon": "assets/g_translate.svg",
+      "priority": 80
+    }
+  ],
+  "localizedMetadata": {
+    "en": {
+      "name": "Translate Selection",
+      "description": "Translate selected editor text in a bottom sheet, then copy it or safely replace the original selection."
+    },
+    "ar": {
+      "name": "ترجمة النص المحدد",
+      "description": "ترجم النص المحدد في المحرر داخل نافذة سفلية، ثم انسخه أو استبدل النص الأصلي."
+    }
+  },
+  "activationEvents": [
+    "onStartup"
+  ],
+  "changelog": "Fixed Arabic strings JSON, corrected translation-service privacy documentation and icon path, and aligned localization with API 1.0."
+}
