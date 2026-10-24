@@ -9,37 +9,48 @@
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="assets/site.css">
 <script src="assets/site.js" defer></script>
+<script src="assets/extras.js" defer></script>
 </head>
 <body data-page="repo" data-root="">
-<div class="wrap">
-  <header class="bar">
-    <a class="brand" href="./"><img src="icon.svg" alt="" width="30" height="30"><span data-i18n="brand">مستودع جمال</span></a>
+<header class="bar">
+  <div class="wrap bar-in">
+    <a class="brand" href="./"><img src="icon.svg" alt="" width="36" height="36"><span data-i18n="brand">مستودع جمال</span></a>
     <div class="langs" data-langs role="group" aria-label="Language"></div>
-  </header>
-
+  </div>
+</header>
+<nav class="nav" aria-label="Main">
+  <div class="wrap nav-in">
+    <a href="#extensions" data-i18n="nav_ext" aria-current="true">الإضافات</a>
+    <a href="#how" data-i18n="nav_how">التثبيت</a>
+    <a href="#details" data-i18n="nav_details">التفاصيل</a>
+    <a href="about/" data-i18n="nav_about">عن المطوّر</a>
+  </div>
+</nav>
+<div class="wrap">
   <main>
     <div class="hero">
-      <div class="hero-grid">
-        <div>
-          <h1 data-repo-name>مستودع جمال الحزازي</h1>
-          <p class="lead" data-i18n="hero_lead">إضافات لـ RawanIDE من تطوير جمال الحزازي. أضف الرابط مرة واحدة ثم ثبّت الإضافات من داخل التطبيق.</p>
-          <span class="address-label visually-hidden" id="url-label" data-i18n="url_label">رابط المستودع</span>
-          <div class="address">
-            <div class="address-field" data-repo-url aria-labelledby="url-label" tabindex="0"></div>
-            <button class="btn" type="button" data-copy-main>نسخ الرابط</button>
-          </div>
-          <p class="status" data-status data-state="checking" role="status">جارٍ التحقق من Market Plus…</p>
+      <div class="hero-media" data-seal></div>
+      <div class="hero-id">
+        <h1 data-repo-name>مستودع جمال الحزازي</h1>
+        <div class="orn" aria-hidden="true"><i></i></div>
+      </div>
+      <p class="lead" data-i18n="hero_lead">إضافات لـ RawanIDE من تطوير جمال الحزازي. أضف الرابط مرة واحدة ثم ثبّت الإضافات من داخل التطبيق.</p>
+      <div class="hero-extra">
+        <span class="visually-hidden" id="url-label" data-i18n="url_label">رابط المستودع</span>
+        <div class="address">
+          <div class="address-field" data-repo-url aria-labelledby="url-label" tabindex="0"></div>
+          <button class="btn" type="button" data-copy-main>نسخ الرابط</button>
         </div>
-        <div data-seal></div>
+        <p class="status" data-status data-state="checking" role="status">جارٍ التحقق من Market Plus…</p>
       </div>
     </div>
 
-    <section aria-labelledby="ext-h">
+    <section id="extensions" aria-labelledby="ext-h">
       <h2 id="ext-h" data-i18n="ext_title">الإضافات</h2>
       <div class="list" data-ext-list></div>
     </section>
 
-    <section aria-labelledby="how-h">
+    <section id="how" aria-labelledby="how-h">
       <h2 id="how-h" data-i18n="how_title">أضفه إلى RawanIDE</h2>
       <ol class="steps">
         <li><p data-i18n="step1">افتح الإضافات ثم تبويب المستودعات.</p></li>
@@ -48,7 +59,7 @@
       </ol>
     </section>
 
-    <section aria-labelledby="facts-h">
+    <section id="details" aria-labelledby="facts-h">
       <h2 id="facts-h" data-i18n="facts_title">تفاصيل المستودع</h2>
       <dl class="facts" data-facts></dl>
     </section>
@@ -56,9 +67,14 @@
 </div>
 
 <footer>
-  <div class="wrap">
+  <div class="wrap foot">
     <span data-i18n="foot_note">كل إصدار يُنزَّل من GitHub ويُتحقَّق من SHA-256 قبل التثبيت.</span>
-    <span><a href="https://rawanide.elhizazi.me/repositories" rel="noopener" data-i18n="foot_market">Market Plus</a></span>
+    <span class="links">
+      <a href="about/" data-i18n="nav_about">عن المطوّر</a>
+      <a href="https://rawanide.elhizazi.me/repositories" rel="noopener" data-i18n="foot_market">Market Plus</a>
+      <a href="https://github.com/elhizazi1/jamal-repository" rel="noopener">GitHub</a>
+    </span>
+    <small>© 2026 Jamal El Hizazi</small>
   </div>
 </footer>
 <!--DATA--><script type="application/json" id="data">{"repository":{"protocol":"1.0","id":"me.elhizazi.jamal.github.repository","name":"Jamal El Hizazi Repository","publisher":"Jamal El Hizazi","description":"Extensions for RawanIDE by Jamal El Hizazi.","homepageUrl":"https://elhizazi1.github.io/jamal-repository/","repositoryUrl":"https://github.com/elhizazi1/jamal-repository","icon":"https://raw.githubusercontent.com/elhizazi1/jamal-repository/main/icon.svg","verification":"rwm-JESA_3A_atXAHX9HX52WhoH6","i18n":{"ar":{"name":"مستودع جمال الحزازي","description":"إضافات لـ RawanIDE من تطوير جمال الحزازي."},"en":{"name":"Jamal El Hizazi Repository","description":"Extensions for RawanIDE by Jamal El Hizazi."},"zh-CN":{"name":"Jamal El Hizazi 扩展仓库","description":"Jamal El Hizazi 为 RawanIDE 开发的扩展。"},"zh-TW":{"name":"Jamal El Hizazi 擴充功能倉庫","description":"Jamal El Hizazi 為 RawanIDE 開發的擴充功能。"}},"extensions":[{"id":"me.elhizazi.jamal.github.repository.language.french","name":"French Language Pack","version":"1.0.1","publisher":"Jamal El Hizazi","description":"French interface language pack for RawanIDE. Provides French UI strings.","category":"Language Packs","icon":"https://raw.githubusercontent.com/elhizazi1/jamal-repository/main/extensions/me.elhizazi.jamal.github.repository.language.french/1.0.1/french-language.webp","apiVersion":"1.0","runtime":null,"permissions":[],"sizeBytes":48856,"sha256":"a94781276d6f744c2116f247a615334e010484c51ec75ef424cbf396a56e475f","downloadUrl":"https://raw.githubusercontent.com/elhizazi1/jamal-repository/main/extensions/me.elhizazi.jamal.github.repository.language.french/1.0.1/me.elhizazi.jamal.github.repository.language.french-1.0.1.r1","homepageUrl":"https://elhizazi1.github.io/jamal-repository/extensions/me.elhizazi.jamal.github.repository.language.french/1.0.1/","documentationUrl":"https://elhizazi1.github.io/jamal-repository/extensions/me.elhizazi.jamal.github.repository.language.french/1.0.1/","tags":["language-pack","french"],"changelog":"Initial release of the French language pack.","i18n":{"en":{"name":"French Language Pack","description":"Adds French language support to RawanIDE, including French interface translations."},"ar":{"name":"حزمة اللغة الفرنسية","description":"تضيف دعم اللغة الفرنسية إلى RawanIDE، وتشمل ترجمة كاملة لواجهة المستخدم."},"fr":{"name":"Pack de langue française","description":"Ajoute la prise en charge de la langue française à RawanIDE, y compris la traduction de l'interface."}}}]},"extension":{"id":"me.elhizazi.jamal.github.repository.language.french","name":"French Language Pack","version":"1.0.1","publisher":"Jamal El Hizazi","category":"Language Packs","i18n":{"en":{"name":"French Language Pack","description":"Adds French language support to RawanIDE, including French interface translations."},"ar":{"name":"حزمة اللغة الفرنسية","description":"تضيف دعم اللغة الفرنسية إلى RawanIDE، وتشمل ترجمة كاملة لواجهة المستخدم."},"fr":{"name":"Pack de langue française","description":"Ajoute la prise en charge de la langue française à RawanIDE, y compris la traduction de l'interface."}},"runtime":null,"apiVersion":"1.0","permissions":[],"package":{"file":"me.elhizazi.jamal.github.repository.language.french-1.0.1.r1","sizeBytes":48856,"sha256":"a94781276d6f744c2116f247a615334e010484c51ec75ef424cbf396a56e475f","downloadUrl":"https://raw.githubusercontent.com/elhizazi1/jamal-repository/main/extensions/me.elhizazi.jamal.github.repository.language.french/1.0.1/me.elhizazi.jamal.github.repository.language.french-1.0.1.r1"},"changelog":{"en":"Initial release of the French language pack.","ar":"الإصدار الأولي لحزمة اللغة الفرنسية.","fr":"Version initiale du pack de langue française."}}}</script><!--/DATA-->

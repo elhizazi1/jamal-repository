@@ -2,7 +2,7 @@
 // Builds the repository: packs extension-src/ into a .r1 (or reuses the published one), computes its SHA-256 and size, and writes
 //   - extensions/<id>/<version>/<id>-<version>.r1, <icon>, marketplace.json, index.html (page data)
 //   - repository.json (the file RawanIDE / Market Plus reads)
-// and refreshes the data embedded in index.html so the pages also work offline.
+// and refreshes the data embedded in index.html, about/index.html and the current extension page so the pages also work offline.
 //
 // Usage:  node tools/build.mjs          (no dependencies, Node 18+)
 // Edit repo.config.json first: owner, repo, branch, and the Market Plus verification code once you have it.
@@ -227,17 +227,18 @@ const pageData = {
     changelog: CHANGELOG,
   },
 }
-const inject = (page) => {
+const inject = (page, data = pageData) => {
   const full = path.join(root, page)
   if (!fs.existsSync(full)) return
   const html = fs.readFileSync(full, 'utf8')
-  const json = JSON.stringify(pageData).replace(/</g, '\\u003c')
+  const json = JSON.stringify(data).replace(/</g, '\\u003c')
   const next = html.replace(/(<!--DATA-->)[\s\S]*?(<!--\/DATA-->)/, () => `<!--DATA--><script type="application/json" id="data">${json}</script><!--/DATA-->`)
   if (next === html && !html.includes(json)) warn.push(`${page}: no <!--DATA--> marker found`)
   fs.writeFileSync(full, next)
 }
 inject('index.html')
 inject(`${folder}/index.html`)
+inject('about/index.html', { repository: repositoryJson }) // developer page: repository data only (extension list + Market Plus check)
 
 // latest-version redirect: extensions/<id>/index.html
 fs.writeFileSync(path.join(root, `extensions/${manifest.id}/index.html`),

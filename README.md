@@ -10,7 +10,8 @@ Repository ID: `me.elhizazi.jamal.github.repository` · Extension: `me.elhizazi.
 repository.json                      ← the file RawanIDE / Market Plus reads · الملف الذي يقرأه التطبيق
 index.html                           ← repository page · صفحة المستودع
 icon.svg
-assets/site.css, site.js             ← shared by both pages (no external requests)
+about/index.html                     ← developer page · صفحة عن المطوّر
+assets/site.css, site.js, extras.js  ← shared by all pages (no external requests)
 extension-src/                       ← exact contents of the published package (manifest.json, strings/fr.json, icons/, README.md)
 extensions/<id>/<version>/           ← <id>-<version>.r1   french-language.webp   marketplace.json   index.html
 tools/build.mjs                      ← packs/reuses the .r1, computes SHA-256 + size, rewrites repository.json and marketplace.json

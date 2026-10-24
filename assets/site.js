@@ -6,13 +6,14 @@
   var MARKET_API = 'https://rawanide.elhizazi.me/api/v1/repositories/verify?url='
   var LANGS = [
     { code: 'ar', label: 'العربية' },
-    { code: 'en', label: 'English' },
-    { code: 'zh-CN', label: '简体' },
-    { code: 'zh-TW', label: '繁體' }
+    { code: 'en', label: 'English' }
   ]
 
   var T = {
     ar: {
+      nav_ext: 'الإضافات', nav_how: 'التثبيت', nav_details: 'التفاصيل', nav_about: 'عن المطوّر', browse: 'تصفّح الإضافات',
+      about_name: 'جمال الحزازي', about_bio: 'مطوّر ويب ومهندس أندرويد وصانع أتمتة بالذكاء الاصطناعي من المغرب، بخبرة تتجاوز خمسة عشر عامًا، ومؤسس مدوّنة صِوان.',
+      c_title: 'تواصل', c_site: 'الموقع الشخصي', c_mail: 'البريد', c_blog: 'المدوّنة',
       brand: 'مستودع جمال', url_label: 'رابط المستودع', copy: 'نسخ الرابط', copied: 'تم النسخ', copy_short: 'نسخ',
       hero_lead: 'إضافات لـ RawanIDE من تطوير جمال الحزازي. أضف الرابط مرة واحدة ثم ثبّت الإضافات من داخل التطبيق.',
       st_checking: 'جارٍ التحقق من Market Plus…', st_verified: 'موثّق في Market Plus', st_pending: 'بانتظار التوثيق في Market Plus', st_unknown: 'تعذّر الاتصال بـ Market Plus الآن',
@@ -30,6 +31,9 @@
       e_download: 'تنزيل ملف .r1', trigger_in: 'في ملفات', sample: 'مثال على السطر', unit_kb: 'ك.ب'
     },
     en: {
+      nav_ext: 'Extensions', nav_how: 'Install', nav_details: 'Details', nav_about: 'About', browse: 'Browse extensions',
+      about_name: 'Jamal El Hizazi', about_bio: 'Moroccan full-stack developer, Android engineer and AI automator with 15+ years of experience, founder of Siwane.xyz.',
+      c_title: 'Contact', c_site: 'Website', c_mail: 'Email', c_blog: 'Blog',
       brand: 'Jamal Repository', url_label: 'Repository link', copy: 'Copy link', copied: 'Copied', copy_short: 'Copy',
       hero_lead: 'Extensions for RawanIDE by Jamal El Hizazi. Add the link once, then install from inside the app.',
       st_checking: 'Checking with Market Plus…', st_verified: 'Verified by Market Plus', st_pending: 'Waiting for Market Plus verification', st_unknown: 'Could not reach Market Plus right now',
@@ -47,6 +51,9 @@
       e_download: 'Download .r1 file', trigger_in: 'In', sample: 'Sample', unit_kb: 'KB'
     },
     'zh-CN': {
+      nav_ext: '扩展', nav_how: '安装', nav_details: '详情', nav_about: '关于', browse: '浏览扩展',
+      about_name: 'Jamal El Hizazi', about_bio: '来自摩洛哥的全栈开发者、Android 工程师与 AI 自动化专家，拥有 15 年以上经验，Siwane.xyz 创始人。',
+      c_title: '联系', c_site: '个人网站', c_mail: '邮箱', c_blog: '博客',
       brand: 'Jamal 仓库', url_label: '仓库链接', copy: '复制链接', copied: '已复制', copy_short: '复制',
       hero_lead: 'Jamal El Hizazi 为 RawanIDE 开发的扩展。只需添加一次链接，之后在应用内安装即可。',
       st_checking: '正在向 Market Plus 核实…', st_verified: '已通过 Market Plus 验证', st_pending: '等待 Market Plus 验证', st_unknown: '暂时无法连接 Market Plus',
@@ -64,6 +71,9 @@
       e_download: '下载 .r1 文件', trigger_in: '适用于', sample: '示例', unit_kb: 'KB'
     },
     'zh-TW': {
+      nav_ext: '擴充功能', nav_how: '安裝', nav_details: '詳情', nav_about: '關於', browse: '瀏覽擴充功能',
+      about_name: 'Jamal El Hizazi', about_bio: '來自摩洛哥的全端開發者、Android 工程師與 AI 自動化專家，擁有 15 年以上經驗，Siwane.xyz 創辦人。',
+      c_title: '聯絡', c_site: '個人網站', c_mail: '電子郵件', c_blog: '部落格',
       brand: 'Jamal 倉庫', url_label: '倉庫連結', copy: '複製連結', copied: '已複製', copy_short: '複製',
       hero_lead: 'Jamal El Hizazi 為 RawanIDE 開發的擴充功能。只需加入一次連結，之後在應用程式內安裝即可。',
       st_checking: '正在向 Market Plus 查證…', st_verified: '已通過 Market Plus 驗證', st_pending: '等待 Market Plus 驗證', st_unknown: '暫時無法連線 Market Plus',
@@ -94,9 +104,8 @@
   function storeSet(v) { try { localStorage.setItem('jamal-lang', v) } catch (e) { /* private mode */ } }
   function pickLang() {
     var saved = storeGet()
-    if (saved && T[saved]) return saved
+    if (saved === 'ar' || saved === 'en') return saved
     var n = (navigator.language || 'ar').toLowerCase()
-    if (n.indexOf('zh') === 0) return /tw|hk|hant/.test(n) ? 'zh-TW' : 'zh-CN'
     if (n.indexOf('en') === 0) return 'en'
     return 'ar'
   }
@@ -221,14 +230,14 @@
       if (!items.length) list.appendChild(el('p', { 'class': 'empty', text: t('ext_none') }))
       items.forEach(function (x) {
         var href = root + 'extensions/' + encodeURIComponent(x.id) + '/' + encodeURIComponent(x.version) + '/'
-        var title = el('h3', { text: localized(x.i18n, 'name', x.name) }, [
+        var tags = el('div', { 'class': 'meta' }, [
           el('span', { 'class': 'tag', text: 'v' + x.version }),
-          el('span', { 'class': 'tag', text: x.category || '' }),
+          x.category ? el('span', { 'class': 'tag', text: x.category }) : null,
           (x.permissions || []).length ? null : el('span', { 'class': 'tag safe', text: t('perms_none') })
         ])
         var row = el('a', { 'class': 'row', href: href }, [
           el('img', { src: root + 'extensions/' + encodeURIComponent(x.id) + '/' + encodeURIComponent(x.version) + '/' + encodeURIComponent(String(x.icon || 'icon.svg').split('/').pop()), alt: '', width: 64, height: 64 }),
-          el('div', {}, [title, el('p', { text: localized(x.i18n, 'description', x.description || '') })]),
+          el('div', {}, [el('h3', { text: localized(x.i18n, 'name', x.name) }), tags, el('p', { text: localized(x.i18n, 'description', x.description || '') })]),
           el('span', { 'class': 'chev', 'aria-hidden': 'true', text: '›' })
         ])
         list.appendChild(row)
@@ -369,9 +378,10 @@
       var repo = data.repository || {}
       document.title = (localized(repo.i18n, 'name', repo.name) || t('brand'))
     }
+    if (page === 'about') document.title = t('about_name') + ' · ' + t('brand')
   }
 
-  function render() { applyStatic(); if (page === 'repo') renderRepo(); else renderExt(); paintSeal() }
+  function render() { applyStatic(); if (page === 'repo' || page === 'about') renderRepo(); else renderExt(); paintSeal() }
 
   function setLang(code) { state.lang = code; storeSet(code); render() }
 
