@@ -241,3 +241,10 @@ footer a { color: #f3d98b; }
 .foot { display: grid; gap: 10px; padding-block: 24px 30px; }
 .foot .links { display: flex; flex-wrap: wrap; gap: 6px 18px; }
 @media (min-width: 720px) { .foot { grid-template-columns: minmax(0, 1fr) auto; align-items: center; } .foot small { grid-column: 1 / -1; } }
+
+/* Extension screenshots: one swipeable row */
+.shots { display: flex; gap: 14px; overflow-x: auto; padding: 4px 2px 12px; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; }
+.shots figure { flex: 0 0 auto; margin: 0; width: min(78vw, 300px); scroll-snap-align: start; }
+.shots a { display: block; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; box-shadow: var(--shadow); }
+.shots img { display: block; width: 100%; height: auto; }
+.shots figcaption { margin-top: 8px; color: var(--muted, inherit); font-size: 13px; line-height: 1.6; }

@@ -106,6 +106,19 @@ git add . && git commit -m "Release <version>" && git push
 
 > راجع الحزمة جيدًا قبل أول `push`: بعد النشر يثبّت MarketPlace بصمتها ولا يمكن تعديلها، وأي تعديل يحتاج رقم إصدار جديدًا. / Review the package before the first push: once published its hash is pinned and any change needs a new version.
 
+## 5) لقطات الشاشة · Screenshots
+
+الصور تُحفظ **خارج الحزمة** فلا تغيّر `.r1` ولا بصمته، ولا تحتاج رفع إصدار. / Screenshots live **outside the package**: they never change the `.r1` or its SHA-256 and need no version bump.
+
+1. ضع الصور في `extensions/<id>/screenshots/` وسمّها `01` و`02` ... بامتداد `png` أو `webp` أو `jpg` (حتى 8 صور، كل صورة حتى 2MB). / Put the pictures in `extensions/<id>/screenshots/` named `01`, `02` ... as `png`, `webp` or `jpg` (up to 8, 2 MB each).
+2. في `repo.config.json` عدّل `screenshots` للإضافة (الأسماء بلا امتداد، والتعليق اختياري): / In `repo.config.json` edit the extension's `screenshots` (names without extension, caption optional):
+   ```json
+   "screenshots": [ { "file": "01", "caption": { "en": "...", "ar": "..." } } ]
+   ```
+3. نفّذ `node tools/build.mjs` ثم `git add . && git commit -m "Add screenshots" && git push`. الصورة غير الموجودة تُتجاوز مع تنبيه ولا يتوقف البناء. / A missing picture is skipped with a notice; the build does not stop.
+
+تظهر اللقطات في صفحة الإضافة، وتُكتب في `repository.json` (`screenshots: [{ url, caption }]`) وفي `marketplace.json`.
+
 ## حل المشاكل · Troubleshooting
 
 - **`fatal: detected dubious ownership`** (Termux) — `git config --global --add safe.directory "$PWD"` ثم أعد الأمر.

@@ -31,7 +31,44 @@
         "en": "The selection toolbar icon is drawn larger and the command no longer appears in the commands list: use the toolbar icon.",
         "ar": "أيقونة شريط التحديد أصبحت أكبر، ولم يعد الأمر يظهر في قائمة الأوامر: استخدم الأيقونة في الشريط."
       },
-      "license": "MIT"
+      "license": "MIT",
+      "screenshots": [
+        {
+          "file": "01",
+          "caption": {
+            "en": "Select the text you want to translate",
+            "ar": "حدّد النص الذي تريد ترجمته"
+          }
+        },
+        {
+          "file": "02",
+          "caption": {
+            "en": "Tap the translate icon in the selection bar",
+            "ar": "اضغط أيقونة الترجمة في شريط التحديد"
+          }
+        },
+        {
+          "file": "03",
+          "caption": {
+            "en": "Choose the target language and translate",
+            "ar": "اختر لغة الهدف ثم ترجم"
+          }
+        },
+        {
+          "file": "04",
+          "caption": {
+            "en": "Copy the result or replace the selection",
+            "ar": "انسخ النتيجة أو استبدل التحديد"
+          }
+        },
+        {
+          "file": "05",
+          "caption": {
+            "en": "The original selection replaced by the translation",
+            "ar": "التحديد الأصلي بعد استبداله بالترجمة"
+          }
+        }
+      ]
     }
   ]
 }

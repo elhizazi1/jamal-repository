@@ -26,7 +26,7 @@
       foot_note: 'كل إصدار يُنزَّل من GitHub ويُتحقَّق من SHA-256 قبل التثبيت.', foot_market: 'MarketPlace', foot_source: 'الكود المصدري',
       back: 'كل الإضافات', e_install_title: 'ثبّتها من التطبيق', e_install_lead: 'أضف المستودع في RawanIDE ثم افتحه وثبّت هذه الإضافة. إن كان عندك ملف .r1 فيمكنك تثبيته يدويًا من زر «تثبيت .r1».',
       e_adds: 'ماذا تضيف', e_snippets: 'مقتطفات الكود', e_snippets_hint: 'اكتب الاختصار في المحرر ثم اضغط Tab.', e_commands: 'الأوامر', e_commands_hint: 'تظهر في لوحة الأوامر ⌘ حسب نوع الملف.',
-      e_theme: 'سمة الطرفية', e_theme_hint: 'اخترها من الإعدادات ثم الطرفية.', e_details: 'تفاصيل الإضافة', e_changelog: 'ما الجديد',
+      e_theme: 'سمة الطرفية', e_theme_hint: 'اخترها من الإعدادات ثم الطرفية.', e_details: 'تفاصيل الإضافة', e_changelog: 'ما الجديد', e_shots: 'لقطات الشاشة',
       d_version: 'الإصدار', d_publisher: 'الناشر', d_category: 'الفئة', d_license: 'الرخصة', d_runtime: 'نوع التشغيل', d_api: 'إصدار الواجهة', d_size: 'حجم الحزمة', d_sha: 'بصمة SHA-256', d_perms: 'الصلاحيات',
       e_download: 'تنزيل ملف .r1', trigger_in: 'في ملفات', sample: 'مثال على السطر', unit_kb: 'ك.ب'
     },
@@ -46,7 +46,7 @@
       foot_note: 'Every version is downloaded from GitHub and its SHA-256 is checked before install.', foot_market: 'MarketPlace', foot_source: 'Source code',
       back: 'All extensions', e_install_title: 'Install it from the app', e_install_lead: 'Add the repository in RawanIDE, open it and install this extension. If you already have the .r1 file, use the Install .r1 button instead.',
       e_adds: 'What it adds', e_snippets: 'Code snippets', e_snippets_hint: 'Type the trigger in the editor, then press Tab.', e_commands: 'Commands', e_commands_hint: 'Shown in the ⌘ command palette for matching file types.',
-      e_theme: 'Terminal theme', e_theme_hint: 'Pick it in Settings, under Terminal.', e_details: 'Extension details', e_changelog: 'What is new',
+      e_theme: 'Terminal theme', e_theme_hint: 'Pick it in Settings, under Terminal.', e_details: 'Extension details', e_changelog: 'What is new', e_shots: 'Screenshots',
       d_version: 'Version', d_publisher: 'Publisher', d_category: 'Category', d_license: 'License', d_runtime: 'Runtime', d_api: 'API version', d_size: 'Package size', d_sha: 'SHA-256', d_perms: 'Permissions',
       e_download: 'Download .r1 file', trigger_in: 'In', sample: 'Sample', unit_kb: 'KB'
     },
@@ -66,7 +66,7 @@
       foot_note: '每个版本都从 GitHub 下载，并在安装前校验 SHA-256。', foot_market: 'MarketPlace', foot_source: '源代码',
       back: '所有扩展', e_install_title: '在应用中安装', e_install_lead: '在 RawanIDE 中添加此仓库，打开后安装这个扩展。若已有 .r1 文件，可使用“安装 .r1”按钮。',
       e_adds: '包含内容', e_snippets: '代码片段', e_snippets_hint: '在编辑器中输入触发词，然后按 Tab。', e_commands: '命令', e_commands_hint: '按文件类型显示在 ⌘ 命令面板中。',
-      e_theme: '终端主题', e_theme_hint: '在“设置”的“终端”中选择。', e_details: '扩展详情', e_changelog: '更新内容',
+      e_theme: '终端主题', e_theme_hint: '在“设置”的“终端”中选择。', e_details: '扩展详情', e_changelog: '更新内容', e_shots: '屏幕截图',
       d_version: '版本', d_publisher: '发布者', d_category: '分类', d_license: '许可证', d_runtime: '运行方式', d_api: 'API 版本', d_size: '包大小', d_sha: 'SHA-256', d_perms: '权限',
       e_download: '下载 .r1 文件', trigger_in: '适用于', sample: '示例', unit_kb: 'KB'
     },
@@ -86,7 +86,7 @@
       foot_note: '每個版本都從 GitHub 下載，並在安裝前校驗 SHA-256。', foot_market: 'MarketPlace', foot_source: '原始碼',
       back: '所有擴充功能', e_install_title: '在應用程式中安裝', e_install_lead: '在 RawanIDE 中新增此倉庫，開啟後安裝這個擴充功能。若已有 .r1 檔案，可使用「安裝 .r1」按鈕。',
       e_adds: '包含內容', e_snippets: '程式碼片段', e_snippets_hint: '在編輯器中輸入觸發詞，然後按 Tab。', e_commands: '指令', e_commands_hint: '依檔案類型顯示在 ⌘ 指令面板中。',
-      e_theme: '終端機主題', e_theme_hint: '在「設定」的「終端機」中選擇。', e_details: '擴充功能詳情', e_changelog: '更新內容',
+      e_theme: '終端機主題', e_theme_hint: '在「設定」的「終端機」中選擇。', e_details: '擴充功能詳情', e_changelog: '更新內容', e_shots: '螢幕截圖',
       d_version: '版本', d_publisher: '發佈者', d_category: '分類', d_license: '授權', d_runtime: '執行方式', d_api: 'API 版本', d_size: '套件大小', d_sha: 'SHA-256', d_perms: '權限',
       e_download: '下載 .r1 檔案', trigger_in: '適用於', sample: '範例', unit_kb: 'KB'
     }
@@ -267,6 +267,23 @@
     }
   }
 
+  // Screenshots: a section created on the fly just before "What is new", so pages made before this feature get it too.
+  function renderShots(x) {
+    var old = document.getElementById('screenshots')
+    if (old) old.parentNode.removeChild(old)
+    var shots = (x.screenshots || []).filter(function (s) { return s && s.src })
+    var anchor = document.getElementById('changelog')
+    if (!shots.length || !anchor) return
+    var row = el('div', { 'class': 'shots' })
+    shots.forEach(function (s) {
+      var cap = s.caption && (s.caption[state.lang] || s.caption[state.lang.split('-')[0]] || s.caption.en || '')
+      var img = el('img', { src: s.src, alt: cap || localized(x.i18n, 'name', x.name), loading: 'lazy' })
+      row.appendChild(el('figure', {}, [el('a', { href: s.src, target: '_blank', rel: 'noopener' }, [img]), cap ? el('figcaption', { text: cap }) : null]))
+    })
+    var sec = el('section', { id: 'screenshots', 'aria-labelledby': 'shots-h' }, [el('h2', { id: 'shots-h', text: t('e_shots') }), row])
+    anchor.parentNode.insertBefore(sec, anchor)
+  }
+
   function renderExt() {
     var x = data.extension
     if (!x) return
@@ -362,6 +379,8 @@
       dd.appendChild(cb)
       facts.appendChild(dd)
     }
+
+    renderShots(x)
 
     var dl = document.querySelector('[data-download]')
     if (dl && x.package) { dl.setAttribute('href', x.package.downloadUrl); dl.textContent = t('e_download') }

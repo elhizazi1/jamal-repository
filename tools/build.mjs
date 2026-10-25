@@ -106,6 +106,34 @@ function zipCrcs(buf) {
 
 const escHtml = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 
+// ---------- screenshots ----------
+// repo.config.json: "screenshots": [{ "file": "01", "caption": { "en": "...", "ar": "..." } }, ...]
+// "file" may be a bare number/name ("01": the first of 01.png / 01.webp / 01.jpg / 01.jpeg that exists) or a full file name.
+// A listed file that is not there yet is skipped with a notice, so the build works before the pictures are added.
+const SHOT_EXT = ['png', 'webp', 'jpg', 'jpeg']
+const SHOT_MAX = 8
+const SHOT_MAX_BYTES = 2 * 1024 * 1024 // the same limits Market Plus applies to the official extensions' screenshots
+function resolveScreenshots(ec, id, where) {
+  if (ec.screenshots === undefined) return []
+  if (!Array.isArray(ec.screenshots)) fail(`${where}: "screenshots" must be an array`)
+  const dir = `extensions/${id}/screenshots`
+  const out = []
+  ec.screenshots.slice(0, SHOT_MAX).forEach((shot, n) => {
+    const want = typeof shot === 'string' ? shot : shot && shot.file
+    if (typeof want !== 'string' || !/^[A-Za-z0-9._-]{1,80}$/.test(want)) fail(`${where}: screenshots[${n}].file must be a simple file name such as "01"`)
+    const names = /\.(png|webp|jpe?g)$/i.test(want) ? [want] : SHOT_EXT.map((e) => `${want}.${e}`)
+    const found = names.find((f) => fs.existsSync(path.join(root, dir, f)))
+    if (!found) { warn.push(`${id}: screenshot "${want}" not found in ${dir}/ (skipped)`); return }
+    if (fs.statSync(path.join(root, dir, found)).size > SHOT_MAX_BYTES) { warn.push(`${id}: ${dir}/${found} is over 2 MB (skipped)`); return }
+    const caption = {}
+    const given = shot && typeof shot === 'object' && shot.caption && typeof shot.caption === 'object' ? shot.caption : {}
+    for (const k of Object.keys(given)) if (typeof given[k] === 'string' && given[k].trim()) caption[k] = given[k].trim().slice(0, 200)
+    out.push({ file: found, url: `${rawBase}/${dir}/${found}`, caption })
+  })
+  if (ec.screenshots.length > SHOT_MAX) warn.push(`${id}: only the first ${SHOT_MAX} screenshots are used`)
+  return out
+}
+
 // ---------- one extension ----------
 const seenIds = new Set()
 function buildExtension(ec, index) {
@@ -134,6 +162,8 @@ function buildExtension(ec, index) {
   const ICON_NAME = path.posix.basename(ICON_SRC)
   const languages = ((manifest.localization && manifest.localization.languages) || []).map((l) => l.nativeName || l.name)
   if ((manifest.permissions || []).some((p) => BLOCKED.includes(p))) fail(`${ec.src}: sensitive permissions are not allowed for community extensions`)
+  // Screenshots live OUTSIDE the package (extensions/<id>/screenshots/), so adding or changing them never alters the .r1 or its SHA-256.
+  const screenshots = resolveScreenshots(ec, manifest.id, where)
   const i18n = manifest.localizedMetadata
   if (!i18n || !i18n.en) fail(`${ec.src}/manifest.json: localizedMetadata.en is required`)
 
@@ -185,6 +215,7 @@ function buildExtension(ec, index) {
     changelog: ec.changelog.en,
     i18n,
     ...(ec.license ? { license: ec.license } : {}),
+    ...(screenshots.length ? { screenshots: screenshots.map((x) => ({ url: x.url, caption: x.caption })) } : {}),
   }
 
   // marketplace.json (same layout as the official repository)
@@ -206,7 +237,7 @@ function buildExtension(ec, index) {
     i18n,
     longDescription: {},
     links: { homepage: `${pagesUrl}${folder}/`, repository: repositoryUrl },
-    screenshots: [],
+    screenshots: screenshots.map((x) => ({ url: x.url, caption: x.caption })),
     highlights: {
       commandCount: commands.length,
       commands,
@@ -237,6 +268,8 @@ function buildExtension(ec, index) {
     i18n, runtime: RUNTIME, apiVersion: manifest.apiVersion, permissions: manifest.permissions || [],
     package: { file: fileName, sizeBytes, sha256, downloadUrl },
     changelog: ec.changelog,
+    ...(ec.license ? { license: ec.license } : {}),
+    ...(screenshots.length ? { screenshots: screenshots.map((x) => ({ src: `../screenshots/${x.file}`, caption: x.caption })) } : {}),
   }
   if (commands.length) pageExt.commands = commands
 
