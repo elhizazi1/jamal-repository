@@ -16,7 +16,20 @@ import { fileURLToPath } from 'node:url'
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const read = (p) => fs.readFileSync(path.join(root, p), 'utf8')
-const writeJson = (p, v) => { fs.mkdirSync(path.dirname(path.join(root, p)), { recursive: true }); fs.writeFileSync(path.join(root, p), JSON.stringify(v, null, 2) + '\n') }
+// Writes a file and copes with a read-only one (common after unpacking an archive or copying through an Android file manager, which
+// makes the build fail with EACCES): an identical file is left alone, otherwise it is made writable, and as a last resort replaced
+// (deleting a file only needs its folder to be writable).
+function writeFileSafe(p, data) {
+  try {
+    if (fs.existsSync(p) && fs.readFileSync(p).equals(Buffer.isBuffer(data) ? data : Buffer.from(String(data), 'utf8'))) return
+  } catch { /* cannot compare: just try to write */ }
+  try { fs.writeFileSync(p, data); return } catch (e) { if (e.code !== 'EACCES' && e.code !== 'EPERM') throw e }
+  try { fs.chmodSync(p, 0o644); fs.writeFileSync(p, data); return } catch { /* replace the file instead */ }
+  fs.unlinkSync(p)
+  fs.writeFileSync(p, data)
+}
+
+const writeJson = (p, v) => { fs.mkdirSync(path.dirname(path.join(root, p)), { recursive: true }); writeFileSafe(path.join(root, p), JSON.stringify(v, null, 2) + '\n') }
 
 const REPOSITORY = {
   id: 'me.elhizazi.jamal.github.repository',
@@ -183,13 +196,13 @@ function buildExtension(ec, index) {
     console.log(`= reusing existing ${fileName} (unchanged contents)`)
   } else {
     pkg = makeZip(entries)
-    fs.writeFileSync(target, pkg)
+    writeFileSafe(target, pkg)
     console.log(`+ created ${fileName}`)
   }
   const sha256 = crypto.createHash('sha256').update(pkg).digest('hex')
   const sizeBytes = pkg.length
   // writeFileSync instead of copyFileSync: copyfile fails with EPERM on some Android/Termux setups
-  fs.writeFileSync(path.join(root, folder, ICON_NAME), fs.readFileSync(path.join(root, ec.src, ICON_SRC)))
+  writeFileSafe(path.join(root, folder, ICON_NAME), fs.readFileSync(path.join(root, ec.src, ICON_SRC)))
 
   const downloadUrl = `${rawBase}/${folder}/${fileName}`
   const commands = (manifest.commands || []).map((c) => ({ id: c.id, title: c.title, languages: c.languages || [] }))
@@ -255,12 +268,12 @@ function buildExtension(ec, index) {
   if (!fs.existsSync(pagePath)) {
     const tpl = fs.readFileSync(path.join(root, 'tools/extension-page.template.html'), 'utf8')
     const fill = { TITLE: (i18n.ar && i18n.ar.name) || manifest.name, DESC: i18n.en.description || manifest.description, ICON: ICON_NAME, VERSION: manifest.version }
-    fs.writeFileSync(pagePath, tpl.replace(/\{\{(TITLE|DESC|ICON|VERSION)\}\}/g, (_, k) => escHtml(fill[k])))
+    writeFileSafe(pagePath, tpl.replace(/\{\{(TITLE|DESC|ICON|VERSION)\}\}/g, (_, k) => escHtml(fill[k])))
     console.log(`+ created ${folder}/index.html`)
   }
 
   // the redirect extensions/<id>/ → latest version
-  fs.writeFileSync(path.join(root, `extensions/${manifest.id}/index.html`),
+  writeFileSafe(path.join(root, `extensions/${manifest.id}/index.html`),
     `<!doctype html><meta charset="utf-8"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0; url=${manifest.version}/"><title>${manifest.name}</title><a href="${manifest.version}/">${manifest.name} ${manifest.version}</a>\n`)
 
   const pageExt = {
@@ -304,7 +317,7 @@ const inject = (page, data) => {
   const json = JSON.stringify(data).replace(/</g, '\\u003c')
   const next = html.replace(/(<!--DATA-->)[\s\S]*?(<!--\/DATA-->)/, () => `<!--DATA--><script type="application/json" id="data">${json}</script><!--/DATA-->`)
   if (next === html && !html.includes(json)) warn.push(`${page}: no <!--DATA--> marker found`)
-  fs.writeFileSync(full, next)
+  writeFileSafe(full, next)
 }
 inject('index.html', { repository: repositoryJson })
 inject('about/index.html', { repository: repositoryJson }) // developer page: repository data only (extension list + MarketPlace check)
