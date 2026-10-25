@@ -99,7 +99,44 @@
           "description": "ترجم النص المحدد في المحرر داخل نافذة سفلية، ثم انسخه أو استبدل النص الأصلي."
         }
       },
-      "license": "MIT"
+      "license": "MIT",
+      "screenshots": [
+        {
+          "url": "https://raw.githubusercontent.com/elhizazi1/jamal-repository/main/extensions/me.elhizazi.jamal.github.repository.translate-selection/screenshots/01.PNG",
+          "caption": {
+            "en": "Select the text you want to translate",
+            "ar": "حدّد النص الذي تريد ترجمته"
+          }
+        },
+        {
+          "url": "https://raw.githubusercontent.com/elhizazi1/jamal-repository/main/extensions/me.elhizazi.jamal.github.repository.translate-selection/screenshots/02.PNG",
+          "caption": {
+            "en": "Tap the translate icon in the selection bar",
+            "ar": "اضغط أيقونة الترجمة في شريط التحديد"
+          }
+        },
+        {
+          "url": "https://raw.githubusercontent.com/elhizazi1/jamal-repository/main/extensions/me.elhizazi.jamal.github.repository.translate-selection/screenshots/03.PNG",
+          "caption": {
+            "en": "Choose the target language and translate",
+            "ar": "اختر لغة الهدف ثم ترجم"
+          }
+        },
+        {
+          "url": "https://raw.githubusercontent.com/elhizazi1/jamal-repository/main/extensions/me.elhizazi.jamal.github.repository.translate-selection/screenshots/04.PNG",
+          "caption": {
+            "en": "Copy the result or replace the selection",
+            "ar": "انسخ النتيجة أو استبدل التحديد"
+          }
+        },
+        {
+          "url": "https://raw.githubusercontent.com/elhizazi1/jamal-repository/main/extensions/me.elhizazi.jamal.github.repository.translate-selection/screenshots/05.PNG",
+          "caption": {
+            "en": "The original selection replaced by the translation",
+            "ar": "التحديد الأصلي بعد استبداله بالترجمة"
+          }
+        }
+      ]
     }
   ]
 }

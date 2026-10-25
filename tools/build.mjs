@@ -130,18 +130,25 @@ function resolveScreenshots(ec, id, where) {
   if (ec.screenshots === undefined) return []
   if (!Array.isArray(ec.screenshots)) fail(`${where}: "screenshots" must be an array`)
   const dir = `extensions/${id}/screenshots`
+  const dirPath = path.join(root, dir)
+  // What is really in the folder, so a name that differs only in letter case (01.PNG) still matches and a miss can say what was seen.
+  const present = fs.existsSync(dirPath) ? fs.readdirSync(dirPath).filter((f) => !f.startsWith('.')) : null
   const out = []
   ec.screenshots.slice(0, SHOT_MAX).forEach((shot, n) => {
     const want = typeof shot === 'string' ? shot : shot && shot.file
     if (typeof want !== 'string' || !/^[A-Za-z0-9._-]{1,80}$/.test(want)) fail(`${where}: screenshots[${n}].file must be a simple file name such as "01"`)
-    const names = /\.(png|webp|jpe?g)$/i.test(want) ? [want] : SHOT_EXT.map((e) => `${want}.${e}`)
-    const found = names.find((f) => fs.existsSync(path.join(root, dir, f)))
-    if (!found) { warn.push(`${id}: screenshot "${want}" not found in ${dir}/ (skipped)`); return }
-    if (fs.statSync(path.join(root, dir, found)).size > SHOT_MAX_BYTES) { warn.push(`${id}: ${dir}/${found} is over 2 MB (skipped)`); return }
+    const wanted = new Set((/\.(png|webp|jpe?g)$/i.test(want) ? [want] : SHOT_EXT.map((e) => `${want}.${e}`)).map((f) => f.toLowerCase()))
+    const found = (present || []).find((f) => wanted.has(f.toLowerCase()))
+    if (!found) {
+      const seen = present === null ? `the folder ${dir}/ does not exist` : present.length ? `it contains: ${present.join(', ')}` : 'the folder is empty'
+      warn.push(`${id}: screenshot "${want}" not found in ${dir}/ (${seen}). Expected ${[...wanted].join(' or ')} (skipped)`)
+      return
+    }
+    if (fs.statSync(path.join(dirPath, found)).size > SHOT_MAX_BYTES) { warn.push(`${id}: ${dir}/${found} is over 2 MB (skipped)`); return }
     const caption = {}
     const given = shot && typeof shot === 'object' && shot.caption && typeof shot.caption === 'object' ? shot.caption : {}
     for (const k of Object.keys(given)) if (typeof given[k] === 'string' && given[k].trim()) caption[k] = given[k].trim().slice(0, 200)
-    out.push({ file: found, url: `${rawBase}/${dir}/${found}`, caption })
+    out.push({ file: found, url: `${rawBase}/${dir}/${encodeURIComponent(found)}`, caption })
   })
   if (ec.screenshots.length > SHOT_MAX) warn.push(`${id}: only the first ${SHOT_MAX} screenshots are used`)
   return out
@@ -282,7 +289,7 @@ function buildExtension(ec, index) {
     package: { file: fileName, sizeBytes, sha256, downloadUrl },
     changelog: ec.changelog,
     ...(ec.license ? { license: ec.license } : {}),
-    ...(screenshots.length ? { screenshots: screenshots.map((x) => ({ src: `../screenshots/${x.file}`, caption: x.caption })) } : {}),
+    ...(screenshots.length ? { screenshots: screenshots.map((x) => ({ src: `../screenshots/${encodeURIComponent(x.file)}`, caption: x.caption })) } : {}),
   }
   if (commands.length) pageExt.commands = commands
 
