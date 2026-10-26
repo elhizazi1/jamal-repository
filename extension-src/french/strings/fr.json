@@ -1345,6 +1345,11 @@
   "ui_repo_unverified_notice": "%d dépôt(s) non vérifié(s) par Market Place et masqué(s). Les autres dépôts et extensions continuent de fonctionner normalement.",
   "ui_repo_unreachable_notice": "Échec de la mise à jour pour %d dépôt(s). Affichage du dernier contenu chargé.",
   "ui_ext_removed_chip": "Retirée de Market Place",
-  "ui_ext_removed_notice": "Market Place ne propose plus cette extension. Elle a donc été désactivée et ne peut plus être activée. Veuillez la supprimer (désinstaller) pour la retirer."
+  "ui_ext_removed_notice": "Market Place ne propose plus cette extension. Elle a donc été désactivée et ne peut plus être activée. Veuillez la supprimer (désinstaller) pour la retirer.",
+  "ui_license": "Licence",
+  "ui_screenshots": "Captures d'écran",
+  "ui_other_versions": "Autres versions",
+  "ui_install_this_version": "Installer cette version",
+  "ui_screenshot_n_of": "{n} / {total}"  
 
 }

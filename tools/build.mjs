@@ -154,6 +154,55 @@ function resolveScreenshots(ec, id, where) {
   return out
 }
 
+// ---------- earlier versions ----------
+// Every version already published stays announced in repository.json, so the app can offer it ("Other versions") when an update
+// misbehaves. They are read from the folders this tool created earlier (extensions/<id>/<version>/marketplace.json + the .r1 beside it);
+// nothing is rebuilt and the .r1 files are never touched, so their SHA-256 stays exactly what Market Place pinned.
+const versionCmp = (a, b) => {
+  const pa = String(a).split(/[.+_-]/), pb = String(b).split(/[.+_-]/)
+  for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
+    const x = pa[i] ?? '0', y = pb[i] ?? '0'
+    if (x === y) continue
+    const nx = /^\d+$/.test(x), ny = /^\d+$/.test(y)
+    if (nx && ny) return Number(x) - Number(y)
+    return nx ? 1 : ny ? -1 : x.localeCompare(y)
+  }
+  return 0
+}
+function olderVersionEntries(manifest, ec) {
+  const base = path.join(root, 'extensions', manifest.id)
+  if (!fs.existsSync(base)) return []
+  const out = []
+  for (const version of fs.readdirSync(base)) {
+    if (version === manifest.version || !/^[0-9A-Za-z][0-9A-Za-z.+_-]{0,63}$/.test(version)) continue
+    const dir = path.join(base, version)
+    const metaPath = path.join(dir, 'marketplace.json')
+    if (!fs.statSync(dir).isDirectory() || !fs.existsSync(metaPath)) continue
+    const fileName = `${manifest.id}-${version}.r1`
+    if (!fs.existsSync(path.join(dir, fileName))) { warn.push(`${manifest.id}@${version}: ${fileName} is missing, version not listed`); continue }
+    let meta
+    try { meta = JSON.parse(fs.readFileSync(metaPath, 'utf8')) } catch { warn.push(`${manifest.id}@${version}: marketplace.json is not valid JSON, version not listed`); continue }
+    if (meta.version !== version || meta.id !== manifest.id) { warn.push(`${manifest.id}@${version}: marketplace.json does not match its folder, version not listed`); continue }
+    if ((meta.permissions || []).some((p) => BLOCKED.includes(p))) { warn.push(`${manifest.id}@${version}: sensitive permissions, version not listed`); continue }
+    const pkg = fs.readFileSync(path.join(dir, fileName))
+    const folder = `extensions/${manifest.id}/${version}`
+    const notes = meta.releases && meta.releases[version] && meta.releases[version].notes
+    out.push({
+      id: manifest.id, name: meta.name, version, publisher: meta.publisher, description: meta.description, category: meta.category,
+      icon: `${rawBase}/${folder}/${encodeURIComponent(String(meta.icon || 'icon.svg'))}`,
+      apiVersion: meta.apiVersion, runtime: meta.runtime, permissions: meta.permissions || [],
+      sizeBytes: pkg.length, sha256: crypto.createHash('sha256').update(pkg).digest('hex'),
+      downloadUrl: `${rawBase}/${folder}/${fileName}`,
+      homepageUrl: `${pagesUrl}${folder}/`, documentationUrl: `${pagesUrl}${folder}/`,
+      tags: ec.tags,
+      ...(notes && typeof notes.en === 'string' && notes.en ? { changelog: notes.en } : {}),
+      i18n: meta.i18n,
+      ...(ec.license ? { license: ec.license } : {}),
+    })
+  }
+  return out.sort((a, b) => versionCmp(b.version, a.version))
+}
+
 // ---------- one extension ----------
 const seenIds = new Set()
 function buildExtension(ec, index) {
@@ -294,7 +343,9 @@ function buildExtension(ec, index) {
   if (commands.length) pageExt.commands = commands
 
   console.log(`✓ ${fileName}  ${sizeBytes} bytes  sha256 ${sha256}`)
-  return { entry, pageExt, folder }
+  const older = olderVersionEntries(manifest, ec)
+  if (older.length) console.log(`  also listed: ${older.map((o) => o.version).join(', ')}`)
+  return { entry, older, pageExt, folder }
 }
 
 const built = cfg.extensions.map(buildExtension)
@@ -312,7 +363,7 @@ const repositoryJson = {
   // The code MarketPlace gives you when you claim this repository. Needed once, until it shows as verified.
   verification: cfg.verification || 'REPLACE_WITH_MARKET_PLUS_CODE',
   i18n: REPOSITORY.i18n,
-  extensions: built.map((b) => b.entry),
+  extensions: built.flatMap((b) => [b.entry, ...b.older]),
 }
 writeJson('repository.json', repositoryJson)
 

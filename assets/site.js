@@ -226,7 +226,9 @@
     var list = document.querySelector('[data-ext-list]')
     if (list) {
       list.textContent = ''
-      var items = repo.extensions || []
+      // repository.json also lists earlier versions (for the app); the page shows each extension once, with its first (newest) entry
+      var seenIds = {}
+      var items = (repo.extensions || []).filter(function (x) { if (seenIds[x.id]) return false; seenIds[x.id] = 1; return true })
       if (!items.length) list.appendChild(el('p', { 'class': 'empty', text: t('ext_none') }))
       items.forEach(function (x) {
         var href = root + 'extensions/' + encodeURIComponent(x.id) + '/' + encodeURIComponent(x.version) + '/'

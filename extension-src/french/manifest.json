@@ -1,7 +1,7 @@
 {
   "id": "me.elhizazi.jamal.github.repository.language.french",
   "name": "French Language Pack",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "publisher": "Jamal El Hizazi",
   "description": "French interface language pack for RawanIDE. Provides French UI strings.",
   "apiVersion": "1.0",
