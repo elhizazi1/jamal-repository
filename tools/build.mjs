@@ -190,7 +190,9 @@ function olderVersionEntries(manifest, ec) {
     out.push({
       id: manifest.id, name: meta.name, version, publisher: meta.publisher, description: meta.description, category: meta.category,
       icon: `${rawBase}/${folder}/${encodeURIComponent(String(meta.icon || 'icon.svg'))}`,
-      apiVersion: meta.apiVersion, runtime: meta.runtime, permissions: meta.permissions || [],
+      // Older marketplace.json files of data-only packs (language packs) say runtime null, but a listing must carry one: use what this
+      // extension's config lists ("runtimeOverride"), else the file's own value, else "declarative" (what data-only packs are listed as).
+      apiVersion: meta.apiVersion, runtime: ec.runtimeOverride ?? meta.runtime ?? 'declarative', permissions: meta.permissions || [],
       sizeBytes: pkg.length, sha256: crypto.createHash('sha256').update(pkg).digest('hex'),
       downloadUrl: `${rawBase}/${folder}/${fileName}`,
       homepageUrl: `${pagesUrl}${folder}/`, documentationUrl: `${pagesUrl}${folder}/`,
