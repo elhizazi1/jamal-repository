@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 2,
+  "id": "me.elhizazi.jamal.github.repository.language.french",
+  "name": "French Language Pack",
+  "description": "French interface language pack for RawanIDE. Provides French UI strings.",
+  "category": "Language Packs",
+  "publisher": "Jamal El Hizazi",
+  "version": "1.0.3",
+  "apiVersion": "1.0",
+  "runtime": "declarative",
+  "permissions": [],
+  "icon": "french-language.webp",
+  "package": {
+    "file": "me.elhizazi.jamal.github.repository.language.french-1.0.3.r1",
+    "size": 51118,
+    "sha256": "8d96ebf48cab43729857f6c1481a118d358652b920c33dad74ba4975d328eeda"
+  },
+  "publishedAt": "2026-11-09",
+  "featured": false,
+  "i18n": {
+    "en": {
+      "name": "French Language Pack",
+      "description": "Adds French language support to RawanIDE, including French interface translations."
+    },
+    "ar": {
+      "name": "حزمة اللغة الفرنسية",
+      "description": "تضيف دعم اللغة الفرنسية إلى RawanIDE، وتشمل ترجمة كاملة لواجهة المستخدم."
+    },
+    "fr": {
+      "name": "Pack de langue française",
+      "description": "Ajoute la prise en charge de la langue française à RawanIDE, y compris la traduction de l'interface."
+    }
+  },
+  "longDescription": {},
+  "links": {
+    "homepage": "https://elhizazi1.github.io/jamal-repository/extensions/me.elhizazi.jamal.github.repository.language.french/1.0.3/",
+    "repository": "https://github.com/elhizazi1/jamal-repository"
+  },
+  "screenshots": [],
+  "highlights": {
+    "commandCount": 0,
+    "commands": [],
+    "languages": [
+      "Français"
+    ],
+    "fileLanguages": [],
+    "contributes": [
+      "language-pack"
+    ]
+  },
+  "releases": {
+    "1.0.3": {
+      "date": "2026-11-09",
+      "notes": {
+        "en": "Updated French translations to match Arabic 1.0.12: 122 new UI keys, 1474 total.",
+        "ar": "تحديث الترجمة الفرنسية وفق العربية 1.0.12: إضافة 122 مفتاحًا، ليصبح المجموع 1474.",
+        "fr": "Traductions françaises mises à jour selon la version arabe 1.0.12 : 122 nouvelles clés, 1 474 au total."
+      }
+    }
+  }
+}
