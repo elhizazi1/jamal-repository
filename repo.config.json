@@ -6,16 +6,16 @@
   "extensions": [
     {
       "src": "extension-src/french",
-      "releaseDate": "2026-10-22",
+      "releaseDate": "2026-11-17",
       "runtimeOverride": "declarative",
       "tags": [
         "language-pack",
         "french"
       ],
       "changelog": {
-        "en": "Initial release of the French language pack.",
-        "ar": "الإصدار الأولي لحزمة اللغة الفرنسية.",
-        "fr": "Version initiale du pack de langue française."
+        "en": "Updated key coverage to match Arabic language pack 1.0.13 (1,677 keys). 203 newly added entries require French translation review.",
+        "ar": "تحديث تغطية المفاتيح وفق العربية 1.0.13 (1677 مفتاحًا). تحتاج 203 عبارات مضافة إلى مراجعة ترجمتها الفرنسية.",
+        "fr": "Mise à jour des clés selon le pack arabe 1.0.13 (1 677 clés). Les 203 nouvelles chaînes nécessitent une révision de traduction en français."
       },
       "license": "MIT"
     },

@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 2,
+  "id": "me.elhizazi.jamal.github.repository.language.french",
+  "name": "French Language Pack",
+  "description": "French interface language pack for RawanIDE. Provides French UI strings.",
+  "category": "Language Packs",
+  "publisher": "Jamal El Hizazi",
+  "version": "1.0.4",
+  "apiVersion": "1.0",
+  "runtime": "declarative",
+  "permissions": [],
+  "icon": "french-language.webp",
+  "package": {
+    "file": "me.elhizazi.jamal.github.repository.language.french-1.0.4.r1",
+    "size": 57716,
+    "sha256": "c2f1b17bc71cb374579ac978a3cc09d40a4b104897d55e389b1a64e4bdd6bd60"
+  },
+  "publishedAt": "2026-11-17",
+  "featured": false,
+  "i18n": {
+    "en": {
+      "name": "French Language Pack",
+      "description": "Adds French language support to RawanIDE, including French interface translations."
+    },
+    "ar": {
+      "name": "حزمة اللغة الفرنسية",
+      "description": "تضيف دعم اللغة الفرنسية إلى RawanIDE، وتشمل ترجمة كاملة لواجهة المستخدم."
+    },
+    "fr": {
+      "name": "Pack de langue française",
+      "description": "Ajoute la prise en charge de la langue française à RawanIDE, y compris la traduction de l'interface."
+    }
+  },
+  "longDescription": {},
+  "links": {
+    "homepage": "https://elhizazi1.github.io/jamal-repository/extensions/me.elhizazi.jamal.github.repository.language.french/1.0.4/",
+    "repository": "https://github.com/elhizazi1/jamal-repository"
+  },
+  "screenshots": [],
+  "highlights": {
+    "commandCount": 0,
+    "commands": [],
+    "languages": [
+      "Français"
+    ],
+    "fileLanguages": [],
+    "contributes": [
+      "language-pack"
+    ]
+  },
+  "releases": {
+    "1.0.4": {
+      "date": "2026-11-17",
+      "notes": {
+        "en": "Updated key coverage to match Arabic language pack 1.0.13 (1,677 keys). 203 newly added entries require French translation review.",
+        "ar": "تحديث تغطية المفاتيح وفق العربية 1.0.13 (1677 مفتاحًا). تحتاج 203 عبارات مضافة إلى مراجعة ترجمتها الفرنسية.",
+        "fr": "Mise à jour des clés selon le pack arabe 1.0.13 (1 677 clés). Les 203 nouvelles chaînes nécessitent une révision de traduction en français."
+      }
+    }
+  }
+}
