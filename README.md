@@ -129,3 +129,10 @@ git add . && git commit -m "Release <version>" && git push
 
 ---
 Jamal El Hizazi · GitHub: [@elhizazi1](https://github.com/elhizazi1) · https://jamal.elhizazi.me · jamal@elhizazi.me
+
+
+## Moroccan Arabic typography · الخط المغربي الأصيل
+
+تستخدم الصفحات العربية خط **Maghribi Assile** محليًا وبشكل افتراضي دون قائمة اختيار. تظل النصوص التقنية والأكواد بخط أحادي المسافة، وتحتفظ النصوص الإنجليزية بخطوطها الاحتياطية. يرجى التحقق من ترخيص الخط قبل إعادة توزيعه.
+
+Arabic and English pages use the locally hosted **Maghribi Assile** font by default, without a font selector. Technical code retains its monospace font. Verify the font's redistribution license before publishing.

@@ -1,3 +1,4 @@
+@font-face { font-family: "Maghribi Assile"; src: url("./fonts/maghribi-assile.ttf") format("truetype"); font-style: normal; font-weight: 100 900; font-display: swap; }
 /* Jamal repository pages, v5: one consolidated stylesheet. No external fonts, scripts or images.
    Layout rule: every hero is one CSS grid with named areas (media | id | lead | extra); no absolute positioning, no magic offsets. */
 :root {
@@ -9,8 +10,8 @@
   --title: linear-gradient(135deg, #6d4c12, #b8872b 50%, #7a5614);
   --shadow: 0 1px 0 rgba(255,255,255,.7) inset, 0 12px 32px -16px rgba(20,41,74,.28);
   --r: 14px; --r-sm: 10px; --nav-h: 46px;
-  --font: "Noto Naskh Arabic", "Noto Sans Arabic", "Segoe UI", Tahoma, system-ui, sans-serif;
-  --font-head: "Amiri", "Noto Naskh Arabic", "Traditional Arabic", "Scheherazade New", "Noto Kufi Arabic", Georgia, serif;
+  --font: "Maghribi Assile", serif;
+  --font-head: "Maghribi Assile", serif;
   --mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Roboto Mono", monospace;
 }
 @media (prefers-color-scheme: dark) {
@@ -132,10 +133,14 @@ body[data-page="ext"] .hero h1 { font-size: clamp(22px, 4.4vw, 38px); }
 .seal[data-state="verified"] .ring { stroke-width: 3; }
 .seal[data-state="pending"] .ring, .seal[data-state="unknown"] .ring { stroke-dasharray: 6 5; }
 @keyframes draw { from { stroke-dashoffset: 400; } to { stroke-dashoffset: 0; } }
-@media (max-width: 719px) { /* at 84px the ring lettering is unreadable: hide it (still measurable) and enlarge the word */
-  .seal .ringtext { visibility: hidden; }
-  .seal .core { font-size: 27px; }
-  .seal .core.small { font-size: 16px; }
+/* Preserve the full ornamental verification seal at normal mobile zoom.
+   Previously the ring inscription disappeared below 720px, so the badge
+   looked different at 100% than at 67% browser zoom. */
+@media (max-width: 719px) {
+  body[data-page="repo"] .hero { --media: clamp(96px, 26vw, 116px); }
+  .seal .ringtext { visibility: visible; }
+  .seal .core { font-size: 19px; }
+  .seal .core.small { font-size: 14px; }
 }
 @media (prefers-reduced-motion: reduce) { .seal[data-state="verified"] .star { animation: none; } }
 
@@ -248,3 +253,9 @@ footer a { color: #f3d98b; }
 .shots a { display: block; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; box-shadow: var(--shadow); }
 .shots img { display: block; width: 100%; height: auto; }
 .shots figcaption { margin-top: 8px; color: var(--muted, inherit); font-size: 13px; line-height: 1.6; }
+
+/* Single default Maghribi Assile font for Arabic and English site text. */
+
+/* Shared typography for both language modes. */
+html, body, button, input, select, textarea { font-family: var(--font); }
+html code, html pre, html kbd, html samp, html .mono, html .address-field, html .trigger, html .term, html .card b { font-family: var(--mono); }
