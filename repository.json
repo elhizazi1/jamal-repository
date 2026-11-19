@@ -1,13 +1,13 @@
 {
   "protocol": "1.0",
-  "id": "me.elhizazi.jamal.repository",
+  "id": "me.elhizazi.jamal.github.repository",
   "name": "Jamal El Hizazi Repository",
   "publisher": "Jamal El Hizazi",
   "description": "Extensions for RawanIDE by Jamal El Hizazi.",
   "homepageUrl": "https://elhizazi1.github.io/jamal-repository/",
   "repositoryUrl": "https://github.com/elhizazi1/jamal-repository",
   "icon": "https://raw.githubusercontent.com/elhizazi1/jamal-repository/main/icon.svg",
-  "verification": "rwm-JESA_3A_atXAHX9HX52WhoH6",
+  "verification": "rwm-gXKoVuBgD6nyyejzEQrW941j",
   "i18n": {
     "ar": {
       "name": "مستودع جمال الحزازي",
